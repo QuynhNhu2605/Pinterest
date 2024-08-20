@@ -367,11 +367,25 @@
       "rate": 0
     },
     {
-      "id": 6,
+      "id": "6",
       "photoId": 1,
       "userId": 1,
       "text": "abc",
       "rate": 0
+    },
+    {
+      "id": 7,
+      "photoId": 1,
+      "userId": 1,
+      "text": "abc",
+      "rate": 4
+    },
+    {
+      "id": 8,
+      "photoId": 1,
+      "userId": 1,
+      "text": "",
+      "rate": 4
     }
   ]
 }

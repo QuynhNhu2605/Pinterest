@@ -13,6 +13,8 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
+import StarRating from "./StarRating";
+import { FaStar } from "react-icons/fa";
 
 function PhotoDetails() {
   const { photoid } = useParams();
@@ -21,8 +23,9 @@ function PhotoDetails() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); 
-  const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0); 
+  const [hover, setHover] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
 
   useEffect(() => {
     axios
@@ -30,7 +33,7 @@ function PhotoDetails() {
       .then((response) => {
         if (response.data.length > 0) {
           setPhoto(response.data[0]);
-          setCurrentImageIndex(0); 
+          setCurrentImageIndex(0);
           setThumbnailStartIndex(0);
         }
       })
@@ -50,7 +53,7 @@ function PhotoDetails() {
       photoId: parseInt(photoid),
       userId: JSON.parse(localStorage.getItem("user")).userId,
       text: newComment,
-      rate: 0,
+      rate: newRating,
     };
 
     axios
@@ -101,7 +104,10 @@ function PhotoDetails() {
     );
   }
 
-  const combinedImageUrls = [photo.image.thumbnail, ...(Array.isArray(photo.image.url) ? photo.image.url : [photo.image.url])];
+  const combinedImageUrls = [
+    photo.image.thumbnail,
+    ...(Array.isArray(photo.image.url) ? photo.image.url : [photo.image.url]),
+  ];
   const displayedImageUrl = combinedImageUrls[currentImageIndex];
   const displayedThumbnails = combinedImageUrls.slice(
     thumbnailStartIndex,
@@ -183,13 +189,16 @@ function PhotoDetails() {
                         }}
                       />
                     ))}
+                    
                   </Col>
 
                   <Col md={1}>
                     <Button
                       variant="link"
                       onClick={handleNextImage}
-                      disabled={currentImageIndex === combinedImageUrls.length - 1}
+                      disabled={
+                        currentImageIndex === combinedImageUrls.length - 1
+                      }
                       style={{ fontSize: "30px", textDecoration: "none" }}
                     >
                       &rarr;
@@ -198,9 +207,9 @@ function PhotoDetails() {
                 </Row>
               </Col>
 
-              <Col md={6} sm={12} className="info-section">
-                <Card className="info-card">
-                  <Card.Body>
+              <Col md={6} sm={12} className="info-section" >
+              <div style={{overflowY:"scroll", height: "450px"}}> <Card className="info-card">
+                  <Card.Body style={{padding:"0px 20px 0px 20px"}}>
                     <h3>Id: {photo.photoId}</h3>
                     <h3>Title: {photo.title}</h3>
                     <div className="tags">
@@ -218,44 +227,85 @@ function PhotoDetails() {
                     <hr />
                   </Card.Body>
                 </Card>
-              </Col>
-            </Row>
-            <Row style={{ width: "98%" }}>
-              <div style={{ margin: "20px" }}>
-                <h5>Comments ({comments.length})</h5>
+                <h5 style={{padding:"0px 20px 0px 20px"}}>Comments ({comments.length})</h5>
+                <ListGroup variant="flush" style={{padding:"0px 20px 0px 20px"}} >
+                  {comments.map((comment) => (
+                    <ListGroup.Item key={comment.id}>
+                       <Row>
+                              <Col>
+                      <strong>User {comment.userId}:</strong> {comment.text}
+                              </Col>
+                              <Col style={{display:"flex",justifyContent:"flex-end"}}>
+                      <StarRating rating={comment.rate} />
+
+                              </Col>
+                            </Row>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup></div>
+               
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
-                    <Form className="mt-4">
+                    <Form className="mt-4" style={{padding:"0px 20px 0px 20px"}}>
                       <Form.Group controlId="commentText">
-                        <Form.Label>Add a Comment</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={3}
                           value={newComment}
                           onChange={(e) => setNewComment(e.target.value)}
+                          style={{height:"20px",borderRadius:"50px"}}
                         />
                       </Form.Group>
-                      <Button
-                        className="mt-3 btnSub"
+                      <Row>
+                        <Col>
+                        <div>
+                        {[...Array(5)].map((star, index) => {
+                          const ratingValue = index + 1;
+                          return (
+                            <label key={index}>
+                              <input
+                                type="radio"
+                                name="rating"
+                                value={ratingValue}
+                                onClick={() => setNewRating(ratingValue)}
+                                style={{ display: "none" }}
+                              />
+                              <FaStar
+                                size={20}
+                                color={
+                                  ratingValue <= (hover || newRating)
+                                    ? "#ffc107"
+                                    : "#e4e5e9"
+                                }
+                                onMouseEnter={() => setHover(ratingValue)}
+                                onMouseLeave={() => setHover(null)}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
+                        </Col>
+                     <Col style={{display:"flex"}}>
+                     <Button
+                        className="mt-3 btnSub SubCmt"
                         onClick={handleCommentSubmit}
+                        style={{display:"flex",justifyContent:"flex-end", marginBottom:"20px"}}
                       >
-                        Submit Comment
+                        Comment
                       </Button>
+                     </Col>
+                     
+                      </Row>
+                     
                     </Form>
                   </>
                 ) : (
                   <></>
                 )}
-
-                <ListGroup variant="flush">
-                  {comments.map((comment) => (
-                    <ListGroup.Item key={comment.id}>
-                      <strong>User {comment.userId}:</strong> {comment.text}
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              </div>
+              </Col>
             </Row>
+            
           </Card>
         </Col>
       </Row>
