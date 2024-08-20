@@ -1,0 +1,90 @@
+.photo-details-page {
+    padding: 20px;
+}
+
+.photo-details-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.photo-section {
+    /* padding-right: 20px; */
+/* display: flex; */
+/* justify-content: center; */
+}
+
+
+.info-section {
+    padding-left: 20px;
+}
+.photo-card {
+    /* width: 80%; */
+}
+
+.photo-card img {
+    border-radius: 10px;
+    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ đúng */
+}
+
+.info-card {
+    border: none;
+}
+
+.info-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.tags {
+    margin-bottom: 20px;
+}
+
+.tags .badge {
+    font-size: 14px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.btnSub {
+    background-color: #00bf89;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btnSub:hover {
+    background-color: #00c990cd;
+}
+
+@media (max-width: 768px) {
+    .photo-section, .info-section {
+        padding: 0;
+    }
+
+    .info-section {
+        margin-top: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+    }
+}

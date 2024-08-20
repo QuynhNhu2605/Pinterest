@@ -1,0 +1,377 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userId": 1,
+      "name": "Quỳnh Như",
+      "account": {
+        "email": "u1@gmail.comm",
+        "password": "abc@123",
+        "activeCode": "ABCDEFXXX",
+        "isActive": false
+      },
+      "address": {
+        "street": "190 Nguyễn Tuân, Thanh Xuân",
+        "city": "Hà Nội",
+        "zipCode": 10000
+      },
+      "account.email": "u1@gmail.comcomddd",
+      "address.street": "190 Nguyễn Tuân, Thanh XuânXuânddddddd",
+      "address.city": "Hà Nộiuândddddddddd"
+    },
+    {
+      "id": "2",
+      "userId": 2,
+      "name": "marry",
+      "account": {
+        "email": "u2@gmail.com",
+        "password": "abc@123",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "256 Đường Láng, Cầu Giấy",
+        "city": "Hà Nội",
+        "zipCode": 10000
+      }
+    }
+  ],
+  "albums": [
+    {
+      "id": "1",
+      "albumId": 1,
+      "title": "Spring",
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "albumId": 2,
+      "title": "Summer",
+      "userId": 2
+    },
+    {
+      "id": "3",
+      "albumId": 3,
+      "title": "Autumn",
+      "userId": 2
+    },
+    {
+      "id": "4",
+      "albumId": 4,
+      "title": "Winter",
+      "userId": 1
+    }
+  ],
+  "photos": [
+    {
+      "id": "1",
+      "photoId": 1,
+      "title": "Spring1",
+      "image": {
+        "url": [
+          "pin10.jpg",
+          "pin3.jpg",
+          "pin4.jpg",
+          "pin20.jpg",
+          "pin19.jpg",
+          "pin18.jpg",
+          "pin17.jpg"
+        ],
+        "thumbnail": "pin1.jpg"
+      },
+      "albumId": 1,
+      "tags": [
+        "summer",
+        "hot",
+        "new"
+      ]
+    },
+    {
+      "id": "2",
+      "photoId": 2,
+      "title": "Spring1",
+      "image": {
+        "url": "pin5.jpg",
+        "thumbnail": "pin6.jpg"
+      },
+      "albumId": 1,
+      "tags": [
+        "su",
+        "hot"
+      ]
+    },
+    {
+      "id": "3",
+      "photoId": 3,
+      "title": "Autumn1",
+      "image": {
+        "url": "pin7.jpg",
+        "thumbnail": "pin20.jpg"
+      },
+      "albumId": 2,
+      "tags": [
+        "hot"
+      ]
+    },
+    {
+      "id": "4",
+      "photoId": 4,
+      "title": "Winters",
+      "image": {
+        "url": "pin9.jpg",
+        "thumbnail": "pin19.jpg"
+      },
+      "albumId": 2,
+      "tags": [
+        "beutiful"
+      ]
+    },
+    {
+      "photoId": 5,
+      "title": "Photo 5",
+      "image": {
+        "url": "pin11.jpg",
+        "thumbnail": "pin12.jpg"
+      },
+      "albumId": 2,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 6,
+      "title": "Photo 6",
+      "image": {
+        "url": "pin13.jpg",
+        "thumbnail": "pin14.jpg"
+      },
+      "albumId": 3,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 7,
+      "title": "Photo 7",
+      "image": {
+        "url": "pin15.jpg",
+        "thumbnail": "pin16.jpg"
+      },
+      "albumId": 3,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 8,
+      "title": "Photo 8",
+      "image": {
+        "url": "pin17.jpg",
+        "thumbnail": "pin18.jpg"
+      },
+      "albumId": 3,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 9,
+      "title": "Photo 9",
+      "image": {
+        "url": "pin19.jpg",
+        "thumbnail": "pin20.jpg"
+      },
+      "albumId": 4,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 10,
+      "title": "Photo 10",
+      "image": {
+        "url": "pin1.jpg",
+        "thumbnail": "pin2.jpg"
+      },
+      "albumId": 4,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 11,
+      "title": "Photo 11",
+      "image": {
+        "url": "pin3.jpg",
+        "thumbnail": "pin4.jpg"
+      },
+      "albumId": 4,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 12,
+      "title": "Photo 12",
+      "image": {
+        "url": "pin5.jpg",
+        "thumbnail": "pin6.jpg"
+      },
+      "albumId": 1,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 13,
+      "title": "Photo 13",
+      "image": {
+        "url": "pin7.jpg",
+        "thumbnail": "pin8.jpg"
+      },
+      "albumId": 2,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 14,
+      "title": "Photo 14",
+      "image": {
+        "url": "pin9.jpg",
+        "thumbnail": "pin10.jpg"
+      },
+      "albumId": 3,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "photoId": 1,
+      "userId": 1,
+      "text": "Rất đẹp",
+      "rate": 4
+    },
+    {
+      "id": "1",
+      "photoId": 2,
+      "userId": 1,
+      "text": "Bình thường",
+      "rate": 2
+    },
+    {
+      "id": "3",
+      "photoId": 3,
+      "userId": 1,
+      "text": "",
+      "rate": 5
+    },
+    {
+      "id": "4",
+      "photoId": 3,
+      "userId": 2,
+      "text": "",
+      "rate": 4
+    },
+    {
+      "id": "5",
+      "photoId": 4,
+      "userId": 2,
+      "text": "Rất đẹp",
+      "rate": 4
+    },
+    {
+      "id": "6",
+      "photoId": 4,
+      "userId": 1,
+      "text": "Bình thường",
+      "rate": 2
+    },
+    {
+      "id": "7",
+      "photoId": 2,
+      "userId": 2,
+      "text": "Rất đẹp",
+      "rate": 4
+    },
+    {
+      "id": "8",
+      "photoId": 1,
+      "userId": 2,
+      "text": "Bình thường",
+      "rate": 2
+    },
+    {
+      "id": "3",
+      "photoId": 2,
+      "userId": 1,
+      "text": "good",
+      "rate": "1"
+    },
+    {
+      "id": "4",
+      "photoId": 2,
+      "userId": 1,
+      "text": "wow",
+      "rate": "5"
+    },
+    {
+      "id": "3",
+      "photoId": 1,
+      "userId": 1,
+      "text": "good",
+      "rate": 0
+    },
+    {
+      "id": "4",
+      "photoId": 1,
+      "userId": 2,
+      "text": "1",
+      "rate": 0
+    },
+    {
+      "id": "5",
+      "photoId": 1,
+      "userId": 2,
+      "text": "xinh",
+      "rate": 0
+    },
+    {
+      "id": "5",
+      "photoId": 2,
+      "userId": 1,
+      "text": "green",
+      "rate": 0
+    },
+    {
+      "id": 6,
+      "photoId": 1,
+      "userId": 1,
+      "text": "abc",
+      "rate": 0
+    }
+  ]
+}
