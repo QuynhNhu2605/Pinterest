@@ -308,14 +308,14 @@
       "rate": 4
     },
     {
-      "id": 1,
+      "id": "1",
       "photoId": 10,
       "userId": 1,
       "text": "ôi đẹp ghê",
       "rate": 5
     },
     {
-      "id": 2,
+      "id": "2",
       "photoId": 10,
       "userId": 1,
       "text": "hello",
