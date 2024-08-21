@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
-import { FaStar } from "react-icons/fa";
+import { FaShareAlt, FaStar } from "react-icons/fa";
 
 function PhotoDetails() {
   const { photoid } = useParams();
@@ -114,6 +114,27 @@ function PhotoDetails() {
     thumbnailStartIndex + 4
   );
 
+  const handleShareClick = (photo) => {
+    // Replace this with your ngrok URL
+    const ngrokUrl = "  https://f622-14-232-132-61.ngrok-free.app"; 
+    const shareUrl = `${ngrokUrl}/photo/${photo?.photoId}`;
+
+    if (navigator.share) { //Nếu trình duyệt hỗ trọ hàm này
+        navigator.share({
+            title: "Check out this photo!",
+            text: "I found this amazing photo, take a look!",
+            url: shareUrl,  // Use ngrok URL here
+        })
+        .then(() => console.log("Photo shared successfully!"))
+        .catch((error) => console.error("Error sharing photo:", error));
+    } else { //Nếu trình duyệt ko hỗ trọ hàm này thì coppy cái đường dẫn 
+        // Fallback to copying link
+        navigator.clipboard.writeText(shareUrl)
+            .then(() => alert("Link copied to clipboard!"))
+            .catch(err => console.error("Could not copy text: ", err));
+    }
+};
+
   return (
     <Container fluid className="photo-details-page">
       <Row>
@@ -133,6 +154,25 @@ function PhotoDetails() {
               marginTop: "20px",
             }}
           >
+            <Button
+                variant="outline-secondary"
+                onClick={()=>handleShareClick(photo)}
+                style={{
+                  position: "absolute",
+                  top: "20px",
+                  right: "25px",
+                  borderRadius: "50%",
+
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  justifyItems: "center",
+                  width: "40px",
+                  height: "40px"
+                }}
+              >
+                <FaShareAlt size={20} />
+              </Button>
             <Row>
               <h3
                 style={{
