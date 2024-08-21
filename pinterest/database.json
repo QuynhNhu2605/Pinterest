@@ -84,20 +84,6 @@
       ]
     },
     {
-      "id": "2",
-      "photoId": 2,
-      "title": "Spring1",
-      "image": {
-        "url": "pin5.jpg",
-        "thumbnail": "pin6.jpg"
-      },
-      "albumId": 1,
-      "tags": [
-        "su",
-        "hot"
-      ]
-    },
-    {
       "id": "3",
       "photoId": 3,
       "title": "Autumn1",
@@ -222,20 +208,6 @@
       ]
     },
     {
-      "photoId": 12,
-      "title": "Photo 12",
-      "image": {
-        "url": "pin5.jpg",
-        "thumbnail": "pin6.jpg"
-      },
-      "albumId": 1,
-      "id": "5",
-      "tags": [
-        "col",
-        "hot"
-      ]
-    },
-    {
       "photoId": 13,
       "title": "Photo 13",
       "image": {
@@ -322,18 +294,32 @@
       "rate": 2
     },
     {
-      "id": 3,
+      "id": "3",
       "photoId": 1,
       "userId": 1,
       "text": "uwow",
       "rate": 3
     },
     {
-      "id": 1,
+      "id": "1",
       "photoId": 12,
       "userId": 1,
       "text": "xin chào",
       "rate": 4
+    },
+    {
+      "id": 1,
+      "photoId": 10,
+      "userId": 1,
+      "text": "ôi đẹp ghê",
+      "rate": 5
+    },
+    {
+      "id": 2,
+      "photoId": 10,
+      "userId": 1,
+      "text": "hello",
+      "rate": 0
     }
   ]
 }
