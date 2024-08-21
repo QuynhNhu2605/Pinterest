@@ -12,8 +12,8 @@ function Verify() {
     const [saveData, setSaveData] = useState({});
     const [saveEmail, setSaveEmail] = useState('');
 
-    useEffect(() => {
-        axios.get(`http://localhost:9999/users/${key}`).then(response => {
+    useEffect( async () => {
+        await axios.get(`http://localhost:9999/users/${key}`).then(response => {
             const data = response.data;
             setSaveData(data);
             if (data) {

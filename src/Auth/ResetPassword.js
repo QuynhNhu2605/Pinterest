@@ -11,8 +11,8 @@ function ResetPassword() {
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [error, setError] = useState("");
-    useEffect(() => {
-        axios.get(`http://localhost:9999/users/${key}`).then(response => {
+    useEffect( async () => {
+        await axios.get(`http://localhost:9999/users/${key}`).then(response => {
             const data = response.data;
             setEmail(data.account.email);
             setData(data);

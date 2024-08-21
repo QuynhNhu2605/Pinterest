@@ -13,21 +13,23 @@
     margin-top: 0px !important;
 }
 
-
 .info-section {
     padding-left: 20px;
-}
-.photo-card {
-    /* width: 80%; */
 }
 
 .photo-card img {
     border-radius: 10px;
-    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ đúng */
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.photo-card img:hover {
+    transform: scale(1.05);
 }
 
 .info-card {
     border: none;
+    border-radius: 20px;
 }
 
 .info-card h3 {
@@ -55,6 +57,7 @@ hr {
 
 .form-control {
     margin-bottom: 15px;
+    border-radius: 20px;
 }
 
 .btnSub {
@@ -65,6 +68,7 @@ hr {
     padding: 10px 20px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .btnSub:hover {
