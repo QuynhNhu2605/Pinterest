@@ -4,6 +4,8 @@ import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import "./Home.css";
+import { FiShare2 } from "react-icons/fi";
+
 function Home() {
   const [photos, setPhotos] = useState([]);
   const [filterPhoto, setFilterPhoto] = useState([]);
@@ -66,23 +68,31 @@ function Home() {
     <Row className="content">
       <Col>
         <Container fluid>
-        <div style={{ listStyleType: "none", paddingLeft: 0, margin: 0, display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              listStyleType: "none",
+              paddingLeft: 0,
+              margin: 0,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{ margin: "10px" }}
+              key={"all"}
+              onClick={() => filterByTag("all")}
+            >
+              #All
+            </div>
+            {newTags?.map((t) => (
               <div
                 style={{ margin: "10px" }}
-                key={"all"}
-                onClick={() => filterByTag("all")}
+                key={t}
+                onClick={() => filterByTag(t)}
               >
-                #All
+                #{t}
               </div>
-              {newTags?.map((t) => (
-                <div
-                  style={{ margin: "10px"}}
-                  key={t}
-                  onClick={() => filterByTag(t)}
-                >
-                  #{t}
-                </div>
-              ))}
+            ))}
           </div>
           <Row>
             <Col md={{ span: 6, offset: 3 }} style={{ margin: "10px auto" }}>
@@ -102,7 +112,7 @@ function Home() {
           </Row>
           <Row>
             {/* <Col sm={12} md={10}> */}
-            <Col >
+            <Col>
               <Container fluid className="body">
                 <Masonry columnsCount={6}>
                   {photos.length > 0 ? (
@@ -112,19 +122,27 @@ function Home() {
                         key={p.id}
                       >
                         <Link
-                              to={`/photo/${p.photoId}`}
-                              style={{
-                                color: "gray",
-                                textDecoration: "none",
-                                fontWeight: "initial",
-                              }}
-                            >
-                              <Card.Img
-                          variant="top"
-                          src={"/assets/images/" + p.image.thumbnail}
-                        />
-                            </Link>
-                        
+                          to={`/photo/${p.photoId}`}
+                          style={{
+                            color: "gray",
+                            textDecoration: "none",
+                            fontWeight: "initial",
+                          }}
+                        >
+                          <div className="image-container">
+                            <Card.Img
+                              variant="top"
+                              src={"/assets/images/" + p.image.thumbnail}
+                            />
+                            <div className="share-icon">
+                              <FiShare2 size={24} color="white" />
+                            </div>
+                            <div className="image-overlay">
+                              <div className="title">{p.title}</div>
+                            </div>
+                          </div>
+                        </Link>
+
                         {/* <Card.Body style={{ textAlign: "center" }}>
                           <Card.Title>
                             <Link
