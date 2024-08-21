@@ -65,30 +65,29 @@ function Home() {
   tagsSet?.forEach((t) => newTags.push(t));
 
   const handleShareClick = (photo, event) => {
-    event.stopPropagation(); // Chặn sự kiện click lan ra các phần tử cha
-    // Replace this with your ngrok URL
-    const ngrokUrl = "  https://f622-14-232-132-61.ngrok-free.app";
+    event.stopPropagation(); // Ngăn sự kiện click lan ra các phần tử cha
+    event.preventDefault(); // Ngăn hành động mặc định (nếu có)
+  
+    const ngrokUrl = "https://f622-14-232-132-61.ngrok-free.app";
     const shareUrl = `${ngrokUrl}/photo/${photo?.photoId}`;
-
+  
     if (navigator.share) {
-      //Nếu trình duyệt hỗ trọ hàm này
       navigator
         .share({
           title: "Check out this photo!",
           text: "I found this amazing photo, take a look!",
-          url: shareUrl, // Use ngrok URL here
+          url: shareUrl,
         })
         .then(() => console.log("Photo shared successfully!"))
         .catch((error) => console.error("Error sharing photo:", error));
     } else {
-      //Nếu trình duyệt ko hỗ trọ hàm này thì coppy cái đường dẫn
-      // Fallback to copying link
       navigator.clipboard
         .writeText(shareUrl)
         .then(() => alert("Link copied to clipboard!"))
         .catch((err) => console.error("Could not copy text: ", err));
     }
   };
+  
 
   return (
     <Row className="content">
