@@ -1,5 +1,6 @@
 .photo-details-page {
     padding: 20px;
+    width: 80%;
 }
 
 .photo-details-content {
@@ -7,6 +8,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
+    border-radius: 30px;
 }
 
 .SubCmt{
@@ -18,18 +20,20 @@
 }
 
 .photo-card img {
-    border-radius: 10px;
+    /* border-radius: 10px; */
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
+    
+}
+.photo-card {
+    padding: inherit;
 }
 
-.photo-card img:hover {
-    transform: scale(1.05);
-}
+
 
 .info-card {
     border: none;
-    border-radius: 20px;
+    margin: 20px 0px 0px 20px;
 }
 
 .info-card h3 {
@@ -73,6 +77,10 @@ hr {
 
 .btnSub:hover {
     background-color: #00c990cd;
+}
+
+.photo-section, .info-section {
+    padding: 0;
 }
 
 @media (max-width: 768px) {
