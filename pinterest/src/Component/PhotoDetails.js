@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Badge,
-  ListGroup,
-  Form,
-  Button,
-  Image,
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image } from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
@@ -131,6 +121,7 @@ function PhotoDetails() {
             style={{
               boxShadow: "0px 0px 20px rgba(0,0,0,0.2)",
               marginTop: "20px",
+              borderRadius: "20px",
             }}
           >
             <Row>
@@ -153,9 +144,13 @@ function PhotoDetails() {
                         objectFit: "contain",
                         maxHeight: "450px",
                         width: "100%",
+                        transition: "transform 0.3s ease-in-out",
+                        borderRadius: "20px",
                       }}
                       variant="top"
                       src={`/assets/images/${displayedImageUrl}`}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                     />
                   </Card>
                 </Row>
@@ -183,10 +178,14 @@ function PhotoDetails() {
                           objectFit: "cover",
                           marginRight: "10px",
                           cursor: "pointer",
+                          borderRadius: "10px",
+                          transition: "transform 0.3s ease-in-out",
                         }}
                         onClick={() => {
                           setCurrentImageIndex(thumbnailStartIndex + index);
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                       />
                     ))}
                     
@@ -208,41 +207,42 @@ function PhotoDetails() {
               </Col>
 
               <Col md={6} sm={12} className="info-section" >
-              <div style={{overflowY:"scroll", height: "450px"}}> <Card className="info-card">
-                  <Card.Body style={{padding:"0px 20px 0px 20px"}}>
-                    <h3>Id: {photo.photoId}</h3>
-                    <h3>Title: {photo.title}</h3>
-                    <div className="tags">
-                      {photo.tags.map((tag, index) => (
-                        <Badge
-                          key={index}
-                          pill
-                          bg="secondary"
-                          style={{ marginRight: "5px" }}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    <hr />
-                  </Card.Body>
-                </Card>
-                <h5 style={{padding:"0px 20px 0px 20px"}}>Comments ({comments.length})</h5>
-                <ListGroup variant="flush" style={{padding:"0px 20px 0px 20px"}} >
-                  {comments.map((comment) => (
-                    <ListGroup.Item key={comment.id}>
-                       <Row>
-                              <Col>
-                      <strong>User {comment.userId}:</strong> {comment.text}
-                              </Col>
-                              <Col style={{display:"flex",justifyContent:"flex-end"}}>
-                      <StarRating rating={comment.rate} />
-
-                              </Col>
-                            </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup></div>
+                <div style={{overflowY:"scroll", height: "450px"}}> 
+                  <Card className="info-card">
+                    <Card.Body style={{padding:"0px 20px 0px 20px"}}>
+                      <h3>Id: {photo.photoId}</h3>
+                      <h3>Title: {photo.title}</h3>
+                      <div className="tags">
+                        {photo.tags.map((tag, index) => (
+                          <Badge
+                            key={index}
+                            pill
+                            bg="secondary"
+                            style={{ marginRight: "5px" }}
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      <hr />
+                    </Card.Body>
+                  </Card>
+                  <h5 style={{padding:"0px 20px 0px 20px"}}>Comments ({comments.length})</h5>
+                  <ListGroup variant="flush" style={{padding:"0px 20px 0px 20px"}} >
+                    {comments.map((comment) => (
+                      <ListGroup.Item key={comment.id}>
+                        <Row>
+                          <Col>
+                            <strong>User {comment.userId}:</strong> {comment.text}
+                          </Col>
+                          <Col style={{display:"flex",justifyContent:"flex-end"}}>
+                            <StarRating rating={comment.rate} />
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </div>
                
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
@@ -253,51 +253,49 @@ function PhotoDetails() {
                           rows={3}
                           value={newComment}
                           onChange={(e) => setNewComment(e.target.value)}
-                          style={{height:"20px",borderRadius:"50px"}}
+                          style={{height:"50px",borderRadius:"20px", padding: "10px"}}
                         />
                       </Form.Group>
                       <Row>
                         <Col>
-                        <div>
-                        {[...Array(5)].map((star, index) => {
-                          const ratingValue = index + 1;
-                          return (
-                            <label key={index}>
-                              <input
-                                type="radio"
-                                name="rating"
-                                value={ratingValue}
-                                onClick={() => setNewRating(ratingValue)}
-                                style={{ display: "none" }}
-                              />
-                              <FaStar
-                                size={20}
-                                color={
-                                  ratingValue <= (hover || newRating)
-                                    ? "#ffc107"
-                                    : "#e4e5e9"
-                                }
-                                onMouseEnter={() => setHover(ratingValue)}
-                                onMouseLeave={() => setHover(null)}
-                                style={{ cursor: "pointer" }}
-                              />
-                            </label>
-                          );
-                        })}
-                      </div>
+                          <div>
+                            {[...Array(5)].map((star, index) => {
+                              const ratingValue = index + 1;
+                              return (
+                                <label key={index}>
+                                  <input
+                                    type="radio"
+                                    name="rating"
+                                    value={ratingValue}
+                                    onClick={() => setNewRating(ratingValue)}
+                                    style={{ display: "none" }}
+                                  />
+                                  <FaStar
+                                    size={20}
+                                    color={
+                                      ratingValue <= (hover || newRating)
+                                        ? "#ffc107"
+                                        : "#e4e5e9"
+                                    }
+                                    onMouseEnter={() => setHover(ratingValue)}
+                                    onMouseLeave={() => setHover(null)}
+                                    style={{ cursor: "pointer" }}
+                                  />
+                                </label>
+                              );
+                            })}
+                          </div>
                         </Col>
-                     <Col style={{display:"flex"}}>
-                     <Button
-                        className="mt-3 btnSub SubCmt"
-                        onClick={handleCommentSubmit}
-                        style={{display:"flex",justifyContent:"flex-end", marginBottom:"20px"}}
-                      >
-                        Comment
-                      </Button>
-                     </Col>
-                     
+                        <Col style={{display:"flex", justifyContent: "flex-end"}}>
+                          <Button
+                            className="mt-3 btnSub SubCmt"
+                            onClick={handleCommentSubmit}
+                            style={{display:"flex",justifyContent:"flex-end", marginBottom:"20px"}}
+                          >
+                            Comment
+                          </Button>
+                        </Col>
                       </Row>
-                     
                     </Form>
                   </>
                 ) : (
