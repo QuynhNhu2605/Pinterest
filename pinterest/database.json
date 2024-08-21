@@ -14,10 +14,7 @@
         "street": "190 Nguyễn Tuân, Thanh Xuân",
         "city": "Hà Nội",
         "zipCode": 10000
-      },
-      "account.email": "u1@gmail.comcomddd",
-      "address.street": "190 Nguyễn Tuân, Thanh XuânXuânddddddd",
-      "address.city": "Hà Nộiuândddddddddd"
+      }
     },
     {
       "id": "2",
@@ -84,20 +81,6 @@
         "summer",
         "hot",
         "new"
-      ]
-    },
-    {
-      "id": "2",
-      "photoId": 2,
-      "title": "Spring1",
-      "image": {
-        "url": "pin5.jpg",
-        "thumbnail": "pin6.jpg"
-      },
-      "albumId": 1,
-      "tags": [
-        "su",
-        "hot"
       ]
     },
     {
@@ -225,20 +208,6 @@
       ]
     },
     {
-      "photoId": 12,
-      "title": "Photo 12",
-      "image": {
-        "url": "pin5.jpg",
-        "thumbnail": "pin6.jpg"
-      },
-      "albumId": 1,
-      "id": "5",
-      "tags": [
-        "col",
-        "hot"
-      ]
-    },
-    {
       "photoId": 13,
       "title": "Photo 13",
       "image": {
@@ -326,66 +295,31 @@
     },
     {
       "id": "3",
-      "photoId": 2,
-      "userId": 1,
-      "text": "good",
-      "rate": "1"
-    },
-    {
-      "id": "4",
-      "photoId": 2,
-      "userId": 1,
-      "text": "wow",
-      "rate": "5"
-    },
-    {
-      "id": "3",
       "photoId": 1,
       "userId": 1,
-      "text": "good",
-      "rate": 0
+      "text": "uwow",
+      "rate": 3
     },
     {
-      "id": "4",
-      "photoId": 1,
-      "userId": 2,
-      "text": "1",
-      "rate": 0
-    },
-    {
-      "id": "5",
-      "photoId": 1,
-      "userId": 2,
-      "text": "xinh",
-      "rate": 0
-    },
-    {
-      "id": "5",
-      "photoId": 2,
+      "id": "1",
+      "photoId": 12,
       "userId": 1,
-      "text": "green",
-      "rate": 0
-    },
-    {
-      "id": "6",
-      "photoId": 1,
-      "userId": 1,
-      "text": "abc",
-      "rate": 0
-    },
-    {
-      "id": 7,
-      "photoId": 1,
-      "userId": 1,
-      "text": "abc",
+      "text": "xin chào",
       "rate": 4
     },
     {
-      "id": 8,
-      "photoId": 1,
+      "id": 1,
+      "photoId": 10,
       "userId": 1,
-      "text": "",
-      "rate": 4
+      "text": "ôi đẹp ghê",
+      "rate": 5
+    },
+    {
+      "id": 2,
+      "photoId": 10,
+      "userId": 1,
+      "text": "hello",
+      "rate": 0
     }
   ]
 }

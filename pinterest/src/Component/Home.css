@@ -8,4 +8,60 @@
     margin-top: 10px;
 }
 
-
+.image-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .image-container img {
+    display: block;
+    width: 100%;
+    transition: 0.3s ease;
+  }
+  
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen với độ trong suốt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-overlay .title {
+    color: white;
+    font-size: 20px;
+    font-weight: 450;
+    text-align: center;
+  }
+  
+  .image-container:hover img {
+    filter: blur(2px); /* Làm mờ ảnh khi di chuột */
+  }
+  
+  .image-container:hover .image-overlay {
+    opacity: 1; /* Hiển thị overlay khi di chuột */
+  }
+  
+  .share-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white !important;
+    font-size: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .image-container:hover .share-icon {
+    opacity: 1; /* Hiển thị icon khi di chuột */
+  }
+  
+  
