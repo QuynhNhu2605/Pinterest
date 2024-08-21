@@ -5,10 +5,10 @@
       "userId": 1,
       "name": "Quỳnh Như",
       "account": {
-        "email": "u1@gmail.comm",
+        "email": "u1@gmail.com",
         "password": "abc@123",
-        "activeCode": "ABCDEFXXX",
-        "isActive": false
+        "activeCode": "",
+        "isActive": true
       },
       "address": {
         "street": "190 Nguyễn Tuân, Thanh Xuân",
@@ -22,10 +22,10 @@
     {
       "id": "2",
       "userId": 2,
-      "name": "marry",
+      "name": "jametime",
       "account": {
         "email": "u2@gmail.com",
-        "password": "abc@123",
+        "password": "abc@123@",
         "activeCode": "",
         "isActive": true
       },
@@ -46,9 +46,41 @@
         "isActive": true
       },
       "address": {
+        "street": "Hà",
+        "city": "Nội",
+        "zipCode": "10000"
+      }
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "name": "khanh",
+      "account": {
+        "email": "khanhdz26092003@gmail.com",
+        "password": "khanh2003@",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
         "street": "",
         "city": "",
-        "zipCode": ""
+        "zipCode": "10000"
+      }
+    },
+    {
+      "id": "5",
+      "userId": 5,
+      "name": "khanh",
+      "account": {
+        "email": "2@gmail.com",
+        "password": "khanh2003",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "Hà Nội",
+        "city": "Hà Nội",
+        "zipCode": "10000"
       }
     }
   ],
@@ -387,6 +419,27 @@
       "photoId": 1,
       "userId": 1,
       "text": "abc",
+      "rate": 0
+    },
+    {
+      "id": "7",
+      "photoId": 1,
+      "userId": 1,
+      "text": "abc",
+      "rate": 4
+    },
+    {
+      "id": "8",
+      "photoId": 1,
+      "userId": 1,
+      "text": "",
+      "rate": 4
+    },
+    {
+      "id": 9,
+      "photoId": 1,
+      "userId": 2,
+      "text": "",
       "rate": 0
     }
   ]

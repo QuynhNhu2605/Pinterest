@@ -46,7 +46,7 @@ export default function Register() {
                 address: {
                     street: "",
                     city: "",
-                    zipCode: ""
+                    zipCode: "10000"
                 }
             };
             console.log(newUser);
