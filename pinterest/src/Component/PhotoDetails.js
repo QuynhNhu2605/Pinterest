@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Badge,
+  ListGroup,
+  Form,
+  Button,
+  Image,
+} from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
-import { FaStar } from "react-icons/fa";
-
+import { FaShareAlt, FaStar } from "react-icons/fa";
 function PhotoDetails() {
   const { photoid } = useParams();
   const navigate = useNavigate();
@@ -77,6 +86,27 @@ function PhotoDetails() {
           setThumbnailStartIndex(thumbnailStartIndex - 1);
         }
       }
+    }
+  };
+
+  const handleShareClick = (photo) => {
+    const ngrokUrl = "https://f622-14-232-132-61.ngrok-free.app";
+    const shareUrl = `${ngrokUrl}/photo/${photo?.photoId}`;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this photo!",
+          text: "I found this amazing photo, take a look!",
+          url: shareUrl,
+        })
+        .then(() => console.log("Photo shared successfully!"))
+        .catch((error) => console.error("Error sharing photo:", error));
+    } else {
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Could not copy text: ", err));
     }
   };
 
@@ -174,11 +204,14 @@ function PhotoDetails() {
                         onClick={() => {
                           setCurrentImageIndex(thumbnailStartIndex + index);
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.transform = "scale(1.1)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.transform = "scale(1)")
+                        }
                       />
                     ))}
-                    
                   </Col>
 
                   <Col md={1}>
@@ -196,13 +229,38 @@ function PhotoDetails() {
                 </Row>
               </Col>
 
-              <Col md={6} sm={12} className="info-section" >
-              <div  style={{marginTop: "20px"}}></div>
-                <div style={{overflowY:"scroll", maxheight: "500px", padding:"0px 20px 0px 20px"}}> 
+              <Col md={6} sm={12} className="info-section">
+                <div style={{ marginTop: "20px" }}></div>
+                <div
+                  style={{
+                    overflowY: "scroll",
+                    maxheight: "500px",
+                    padding: "0px 20px 0px 20px",
+                  }}
+                >
                   <Card className="info-card">
-                    <Card.Body >
+                    <Card.Body>
                       {/* <h3>Id: {photo.photoId}</h3> */}
                       <h3>{photo.title}</h3>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => handleShareClick(photo)}
+                        style={{
+                          position: "absolute",
+                          top: "20px",
+                          right: "25px",
+                          borderRadius: "50%",
+
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          justifyItems: "center",
+                          width: "40px",
+                          height: "40px",
+                        }}
+                      >
+                        <FaShareAlt size={20} />
+                      </Button>
                       <div className="tags">
                         {photo.tags.map((tag, index) => (
                           <Badge
@@ -218,15 +276,26 @@ function PhotoDetails() {
                       <hr />
                     </Card.Body>
                   </Card>
-                  <h5 style={{padding:"0px 20px 0px 20px"}}>Comments ({comments.length})</h5>
-                  <ListGroup variant="flush" style={{padding:"0px 20px 0px 20px"}} >
+                  <h5 style={{ padding: "0px 20px 0px 20px" }}>
+                    Comments ({comments.length})
+                  </h5>
+                  <ListGroup
+                    variant="flush"
+                    style={{ padding: "0px 20px 0px 20px" }}
+                  >
                     {comments.map((comment) => (
                       <ListGroup.Item key={comment.id}>
                         <Row>
                           <Col>
-                            <strong>User {comment.userId}:</strong> {comment.text}
+                            <strong>User {comment.userId}:</strong>{" "}
+                            {comment.text}
                           </Col>
-                          <Col style={{display:"flex",justifyContent:"flex-end"}}>
+                          <Col
+                            style={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                            }}
+                          >
                             <StarRating rating={comment.rate} />
                           </Col>
                         </Row>
@@ -234,7 +303,7 @@ function PhotoDetails() {
                     ))}
                   </ListGroup>
                 </div>
-               
+
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
                     <Form className="mt-4" style={{padding:"0px 20px 0px 20px", alignContent:"center"}}>
@@ -244,7 +313,11 @@ function PhotoDetails() {
                           rows={3}
                           value={newComment}
                           onChange={(e) => setNewComment(e.target.value)}
-                          style={{height:"50px",borderRadius:"20px", padding: "10px"}}
+                          style={{
+                            height: "50px",
+                            borderRadius: "20px",
+                            padding: "10px",
+                          }}
                         />
                       </Form.Group>
                       <Row>
@@ -277,11 +350,20 @@ function PhotoDetails() {
                             })}
                           </div>
                         </Col>
-                        <Col style={{display:"flex", justifyContent: "flex-end"}}>
+                        <Col
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
+                        >
                           <Button
                             className="mt-3 btnSub SubCmt"
                             onClick={handleCommentSubmit}
-                            style={{display:"flex",justifyContent:"flex-end", marginBottom:"20px"}}
+                            style={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              marginBottom: "20px",
+                            }}
                           >
                             Comment
                           </Button>
@@ -294,7 +376,6 @@ function PhotoDetails() {
                 )}
               </Col>
             </Row>
-            
           </Card>
         </Col>
       </Row>

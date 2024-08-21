@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import "./Home.css";
 import { FiShare2 } from "react-icons/fi";
-
+import { FaShareAlt, FaStar } from "react-icons/fa";
 function Home() {
   const [photos, setPhotos] = useState([]);
   const [filterPhoto, setFilterPhoto] = useState([]);
@@ -63,6 +63,31 @@ function Home() {
   // Push all elements to newArray
   let newTags = [];
   tagsSet?.forEach((t) => newTags.push(t));
+
+  const handleShareClick = (photo, event) => {
+    event.stopPropagation(); // Ngăn sự kiện click lan ra các phần tử cha
+    event.preventDefault(); // Ngăn hành động mặc định (nếu có)
+  
+    const ngrokUrl = "https://f622-14-232-132-61.ngrok-free.app";
+    const shareUrl = `${ngrokUrl}/photo/${photo?.photoId}`;
+  
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this photo!",
+          text: "I found this amazing photo, take a look!",
+          url: shareUrl,
+        })
+        .then(() => console.log("Photo shared successfully!"))
+        .catch((error) => console.error("Error sharing photo:", error));
+    } else {
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => alert("Link copied to clipboard!"))
+        .catch((err) => console.error("Could not copy text: ", err));
+    }
+  };
+  
 
   return (
     <Container fluid className="content">
@@ -134,11 +159,32 @@ function Home() {
                               variant="top"
                               src={"/assets/images/" + p.image.thumbnail}
                             />
-                            <div className="share-icon">
-                              <FiShare2 size={24} color="white" />
-                            </div>
+
                             <div className="image-overlay">
                               <div className="title">{p.title}</div>
+                              <div>
+                                <Button
+                                  variant="light"
+                                  style={{
+                                    position: "absolute",
+                                    top: "5px",
+                                    right: "5px",
+                                    borderRadius: "50%",
+                                    padding: "10px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    justifyItems: "center",
+                                    width: "30px",
+                                    height: "30px",
+                                  }}
+                                  onClick={(event) =>
+                                    handleShareClick(p, event)
+                                  } // Truyền event vào hàm
+                                >
+                                  <FaShareAlt />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </Link>
