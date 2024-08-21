@@ -13,7 +13,6 @@ function UserPage() {
     const [countAlbums, setCountAlbums] = useState(0);
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
-    const [selectedAlbumTitle, setSelectedAlbumTitle] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [editedUser, setEditedUser] = useState({});
     const [errors, setErrors] = useState({});
@@ -122,8 +121,9 @@ function UserPage() {
         }
 
         if (isValid) {
+
             const newAlbum = {
-                id: countAlbums + 1,
+                id: (countAlbums + 1).toString(),
                 albumId: countAlbums + 1,
                 title: newAlbumTitle,
                 userId: user.userId
