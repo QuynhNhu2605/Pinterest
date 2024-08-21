@@ -8,6 +8,9 @@ import  User from "./Component/User";
 import  Login from "./Auth/Login";
 import  Register from "./Auth/Register";
 import "./App.css";
+import Verify from "./Auth/Verify";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ResetPassword from "./Auth/ResetPassword";
 
 function App() {
   return (
@@ -21,8 +24,9 @@ function App() {
           <Route path="/profile" element={<User/>}/>
           <Route path="/auth/login" element={<Login/>}/>
           <Route path="/auth/register" element={<Register/>}/>
-          <Route path="/auth/forgotpassword"/>
-          <Route path="/auth/active-account/:key"/>
+          <Route path="/auth/active-account/:key"  element={<Verify/>}/>
+          <Route path="auth/forgotPassword" element={<ForgotPassword/>}/>
+          <Route path="/auth/resetPassword/:key" element={<ResetPassword/>} />
         </Routes>
       </BrowserRouter>
       <Footer/>

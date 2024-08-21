@@ -34,6 +34,22 @@
         "city": "Hà Nội",
         "zipCode": 10000
       }
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "name": "khanh",
+      "account": {
+        "email": "1@gmail.com",
+        "password": "khanh2003@",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "",
+        "city": "",
+        "zipCode": ""
+      }
     }
   ],
   "albums": [
@@ -367,7 +383,7 @@
       "rate": 0
     },
     {
-      "id": 6,
+      "id": "6",
       "photoId": 1,
       "userId": 1,
       "text": "abc",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Card, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Card, Button, Form, Modal, InputGroup } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
+import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
 
 function UserPage() {
@@ -11,6 +12,7 @@ function UserPage() {
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isEditPassword, setIsEditPassword] = useState(false);
     const [editedUser, setEditedUser] = useState({});
     const [errors, setErrors] = useState({});
     const [showAlbumModal, setShowAlbumModal] = useState(false);
@@ -68,6 +70,7 @@ function UserPage() {
         if (!editedUser.address.street) formErrors.street = "Street is required";
         if (!editedUser.address.city) formErrors.city = "City is required";
         if (!editedUser.address.zipCode) formErrors.zipCode = "Zip code is required";
+        if (!editedUser.account.password) formErrors.password = "Password is required";
 
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
@@ -81,6 +84,7 @@ function UserPage() {
                     localStorage.setItem("user", JSON.stringify(editedUser));
                     setIsEditing(false);
                     setErrors({});
+                    setIsEditPassword(false);
                 })
                 .catch(err => console.error(err));
         }
@@ -129,10 +133,10 @@ function UserPage() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">User ID</Form.Label>
                         <Col sm="10">
-                            <Form.Control 
-                                plaintext={!isEditing}  
-                                readOnly 
-                                value={user.userId} 
+                            <Form.Control
+                                plaintext={!isEditing}
+                                readOnly
+                                value={user.userId}
                             />
                         </Col>
                     </Form.Group>
@@ -140,13 +144,13 @@ function UserPage() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">Name</Form.Label>
                         <Col sm="10">
-                            <Form.Control 
+                            <Form.Control
                                 isInvalid={!!errors.name}
-                                plaintext={!isEditing} 
-                                readOnly={!isEditing} 
-                                value={editedUser.name} 
-                                name="name" 
-                                onChange={handleInputChange} 
+                                plaintext={!isEditing}
+                                readOnly={!isEditing}
+                                value={editedUser.name}
+                                name="name"
+                                onChange={handleInputChange}
                             />
                             <Form.Control.Feedback type="invalid">
                                 {errors.name}
@@ -157,13 +161,13 @@ function UserPage() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">Email</Form.Label>
                         <Col sm="10">
-                            <Form.Control 
+                            <Form.Control
                                 type="email"
-                                plaintext={!isEditing} 
+                                plaintext={!isEditing}
                                 readOnly
-                                value={editedUser.account?.email || ''} 
-                                name="account.email" 
-                                onChange={handleInputChange} 
+                                value={editedUser.account?.email || ''}
+                                name="account.email"
+                                onChange={handleInputChange}
                             />
                             <Form.Control.Feedback type="invalid">
                                 {errors.email}
@@ -174,13 +178,13 @@ function UserPage() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">Street</Form.Label>
                         <Col sm="10">
-                            <Form.Control 
+                            <Form.Control
                                 isInvalid={!!errors.street}
-                                plaintext={!isEditing} 
-                                readOnly={!isEditing} 
-                                value={editedUser.address?.street || ''} 
-                                name="address.street" 
-                                onChange={handleInputChange} 
+                                plaintext={!isEditing}
+                                readOnly={!isEditing}
+                                value={editedUser.address?.street || ''}
+                                name="address.street"
+                                onChange={handleInputChange}
                             />
                             <Form.Control.Feedback type="invalid">
                                 {errors.street}
@@ -191,13 +195,13 @@ function UserPage() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2">City</Form.Label>
                         <Col sm="10">
-                            <Form.Control 
+                            <Form.Control
                                 isInvalid={!!errors.city}
-                                plaintext={!isEditing} 
-                                readOnly={!isEditing} 
-                                value={editedUser.address?.city || ''} 
-                                name="address.city" 
-                                onChange={handleInputChange} 
+                                plaintext={!isEditing}
+                                readOnly={!isEditing}
+                                value={editedUser.address?.city || ''}
+                                name="address.city"
+                                onChange={handleInputChange}
                             />
                             <Form.Control.Feedback type="invalid">
                                 {errors.city}
@@ -205,7 +209,33 @@ function UserPage() {
                         </Col>
                     </Form.Group>
 
-                    
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="2">Password</Form.Label>
+                        <Col sm="2">
+                            <Form.Control
+                                type= {isEditPassword ? "text" : "password"}
+                                isInvalid={!!errors.city}
+                                plaintext={!isEditPassword}
+                                readOnly={!isEditPassword}
+                                value={editedUser.account?.password || ''}
+                                name="account.password"
+                                onChange={handleInputChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.password}
+                            </Form.Control.Feedback>
+                        </Col>
+                        <Col sm="8">
+                            {
+                                isEditing && (
+                                        <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
+                                )
+                            }
+
+                        </Col>
+                    </Form.Group>
+
+
                 </Form>
 
                 <Button variant={isEditing ? "success" : "primary"} onClick={isEditing ? handleSave : () => setIsEditing(true)}>
@@ -220,9 +250,9 @@ function UserPage() {
             <Col md={4}>
                 <ListGroup>
                     {albums.map(album => (
-                        <ListGroup.Item 
-                            key={album.albumId} 
-                            action 
+                        <ListGroup.Item
+                            key={album.albumId}
+                            action
                             active={selectedAlbumId === album.albumId}
                             onClick={() => setSelectedAlbumId(album.albumId)}
                         >
@@ -239,16 +269,16 @@ function UserPage() {
                         <Row>
                             {photos.map(p => (
                                 <Col md={4} key={p.photoId}>
-                                    <Card  style={{ width: '95%', marginBottom:"10px" }} key={p.id} >
-                                                <Card.Img variant="top" src={"/assets/images/" + p.image.thumbnail} />
-                                                <Card.Body style={{ textAlign: "center" }}>
-                                                    <Card.Title>
-                                                        <Link to={`/photo/${p.photoId}`} style={{color:"gray", textDecoration:"none", fontWeight:"initial"}}>
-                                                            {p.title}
-                                                        </Link>
-                                                    </Card.Title>
-                                                </Card.Body>
-                                            </Card>
+                                    <Card style={{ width: '95%', marginBottom: "10px" }} key={p.id} >
+                                        <Card.Img variant="top" src={"/assets/images/" + p.image.thumbnail} />
+                                        <Card.Body style={{ textAlign: "center" }}>
+                                            <Card.Title>
+                                                <Link to={`/photo/${p.photoId}`} style={{ color: "gray", textDecoration: "none", fontWeight: "initial" }}>
+                                                    {p.title}
+                                                </Link>
+                                            </Card.Title>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
                             ))}
                         </Row>
