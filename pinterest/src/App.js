@@ -11,7 +11,7 @@ import "./App.css";
 
 function App() {
   return (
-    <Container>
+    <div>
       <BrowserRouter>
         <Header/>
         <Routes>
@@ -26,7 +26,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Footer/>
-    </Container>
+    </div>
   );
 }
 

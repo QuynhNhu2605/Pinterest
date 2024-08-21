@@ -65,7 +65,7 @@ function Home() {
   tagsSet?.forEach((t) => newTags.push(t));
 
   return (
-    <Row className="content">
+    <Container fluid className="content">
       <Col>
         <Container fluid>
           <div
@@ -190,7 +190,7 @@ function Home() {
           </Row>
         </Container>
       </Col>
-    </Row>
+    </Container>
   );
 }
 

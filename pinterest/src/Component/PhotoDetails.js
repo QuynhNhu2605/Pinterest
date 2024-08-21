@@ -115,46 +115,36 @@ function PhotoDetails() {
             ←
           </div>
         </Col>
-        <Col md={11}>
+        <Col md={11} >
           <Card
             className="photo-card"
             style={{
               boxShadow: "0px 0px 20px rgba(0,0,0,0.2)",
               marginTop: "20px",
-              borderRadius: "20px",
+              borderRadius: "30px",
             }}
           >
-            <Row>
-              <h3
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  margin: "20px",
-                }}
-              >
-                Photo Details
-              </h3>
-            </Row>
-            <Row className="photo-details-content">
-              <Col md={6} sm={12} className="photo-section">
-                <Row style={{ marginLeft: "15px" }}>
-                  <Card className="photo-card">
+            
+            <Row className="photo-details-content" >
+              <Col md={6} sm={12} className="photo-section"   >
+                <Row style={{ marginLeft: "0px" }}>
+                  <Card className="photo-card" style={{ borderRadius: "30px"}}>
                     <Card.Img
                       style={{
-                        objectFit: "contain",
-                        maxHeight: "450px",
+                        objectFit: "cover",
+                        maxHeight: "600px",
+                        borderTopLeftRadius:"30px",
                         width: "100%",
                         transition: "transform 0.3s ease-in-out",
-                        borderRadius: "20px",
                       }}
                       variant="top"
                       src={`/assets/images/${displayedImageUrl}`}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1)"}
                       onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                     />
                   </Card>
                 </Row>
-                <Row className="mt-3">
+                <Row className="mt-3" style={{marginBottom:"20px",marginRight:"10px"}}>
                   <Col md={1}>
                     <Button
                       variant="link"
@@ -207,11 +197,12 @@ function PhotoDetails() {
               </Col>
 
               <Col md={6} sm={12} className="info-section" >
-                <div style={{overflowY:"scroll", height: "450px"}}> 
+              <div  style={{marginTop: "20px"}}></div>
+                <div style={{overflowY:"scroll", maxheight: "500px", padding:"0px 20px 0px 20px"}}> 
                   <Card className="info-card">
-                    <Card.Body style={{padding:"0px 20px 0px 20px"}}>
-                      <h3>Id: {photo.photoId}</h3>
-                      <h3>Title: {photo.title}</h3>
+                    <Card.Body >
+                      {/* <h3>Id: {photo.photoId}</h3> */}
+                      <h3>{photo.title}</h3>
                       <div className="tags">
                         {photo.tags.map((tag, index) => (
                           <Badge
@@ -246,7 +237,7 @@ function PhotoDetails() {
                
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
-                    <Form className="mt-4" style={{padding:"0px 20px 0px 20px"}}>
+                    <Form className="mt-4" style={{padding:"0px 20px 0px 20px", alignContent:"center"}}>
                       <Form.Group controlId="commentText">
                         <Form.Control
                           as="textarea"
