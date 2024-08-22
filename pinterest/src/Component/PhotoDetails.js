@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Badge,
+  ListGroup,
+  Form,
+  Button,
+  Image,
+} from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
@@ -11,6 +21,7 @@ function PhotoDetails() {
   const [photo, setPhoto] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [totalComment, setTotalComment] = useState("");
   const [newRating, setNewRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -34,11 +45,17 @@ function PhotoDetails() {
         setComments(response.data);
       })
       .catch((err) => console.log("Error: " + err));
+    axios
+      .get(`http://localhost:9999/comments`)
+      .then((response) => {
+        setTotalComment(response.data);
+      })
+      .catch((err) => console.log("Error: " + err));
   }, [photoid]);
 
   const handleCommentSubmit = () => {
     const comment = {
-      id: comments.length + 1,
+      id: totalComment.length + 1,
       photoId: parseInt(photoid),
       userId: JSON.parse(localStorage.getItem("user")).userId,
       text: newComment,
@@ -135,7 +152,7 @@ function PhotoDetails() {
             ←
           </div>
         </Col>
-        <Col md={11} >
+        <Col md={11}>
           <Card
             className="photo-card"
             style={{
@@ -144,27 +161,33 @@ function PhotoDetails() {
               borderRadius: "30px",
             }}
           >
-            
-            <Row className="photo-details-content" >
-              <Col md={6} sm={12} className="photo-section"   >
+            <Row className="photo-details-content">
+              <Col md={6} sm={12} className="photo-section">
                 <Row style={{ marginLeft: "0px" }}>
-                  <Card className="photo-card" style={{ borderRadius: "30px"}}>
+                  <Card className="photo-card" style={{ borderRadius: "30px" }}>
                     <Card.Img
                       style={{
                         objectFit: "cover",
                         maxHeight: "600px",
-                        borderTopLeftRadius:"30px",
+                        borderTopLeftRadius: "30px",
                         width: "100%",
                         transition: "transform 0.3s ease-in-out",
                       }}
                       variant="top"
                       src={`/assets/images/${displayedImageUrl}`}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1)"}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
                     />
                   </Card>
                 </Row>
-                <Row className="mt-3" style={{marginBottom:"20px",marginRight:"10px"}}>
+                <Row
+                  className="mt-3"
+                  style={{ marginBottom: "20px", marginRight: "10px" }}
+                >
                   <Col md={1}>
                     <Button
                       variant="link"
@@ -295,7 +318,13 @@ function PhotoDetails() {
                 </div>
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
-                    <Form className="mt-4" style={{padding:"0px 20px 0px 20px", alignContent:"center"}}>
+                    <Form
+                      className="mt-4"
+                      style={{
+                        padding: "0px 20px 0px 20px",
+                        alignContent: "center",
+                      }}
+                    >
                       <Form.Group controlId="commentText">
                         <Form.Control
                           as="textarea"
