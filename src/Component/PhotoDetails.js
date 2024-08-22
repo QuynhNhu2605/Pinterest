@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Badge,
-  ListGroup,
-  Form,
-  Button,
-  Image,
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image } from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
@@ -303,7 +293,6 @@ function PhotoDetails() {
                     ))}
                   </ListGroup>
                 </div>
-
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
                     <Form className="mt-4" style={{padding:"0px 20px 0px 20px", alignContent:"center"}}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, ListGroup, Card, Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
+import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +15,7 @@ function UserPage() {
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isEditPassword, setIsEditPassword] = useState(false);
     const [editedUser, setEditedUser] = useState({});
     const [errors, setErrors] = useState({});
     const [showAlbumModal, setShowAlbumModal] = useState(false);
@@ -91,6 +93,7 @@ function UserPage() {
         if (!editedUser.address.street) formErrors.street = "Street is required";
         if (!editedUser.address.city) formErrors.city = "City is required";
         if (!editedUser.address.zipCode) formErrors.zipCode = "Zip code is required";
+        if (!editedUser.account.password) formErrors.password = "Password is required";
 
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
@@ -104,6 +107,7 @@ function UserPage() {
                     localStorage.setItem("user", JSON.stringify(editedUser));
                     setIsEditing(false);
                     setErrors({});
+                    setIsEditPassword(false);
                 })
                 .catch(err => console.error(err));
         }
@@ -263,6 +267,32 @@ function UserPage() {
                             <Form.Control.Feedback type="invalid">
                                 {errors.city}
                             </Form.Control.Feedback>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="2">Password</Form.Label>
+                        <Col sm="2">
+                            <Form.Control
+                                type= {isEditPassword ? "text" : "password"}
+                                isInvalid={!!errors.city}
+                                plaintext={!isEditPassword}
+                                readOnly={!isEditPassword}
+                                value={editedUser.account?.password || ''}
+                                name="account.password"
+                                onChange={handleInputChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.password}
+                            </Form.Control.Feedback>
+                        </Col>
+                        <Col sm="8">
+                            {
+                                isEditing && (
+                                        <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
+                                )
+                            }
+
                         </Col>
                     </Form.Group>
 
