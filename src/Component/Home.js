@@ -68,7 +68,7 @@ function Home() {
     event.stopPropagation(); // Ngăn sự kiện click lan ra các phần tử cha
     event.preventDefault(); // Ngăn hành động mặc định (nếu có)
   
-    const ngrokUrl = "https://f622-14-232-132-61.ngrok-free.app";
+    const ngrokUrl = "https://71ca-14-232-149-19.ngrok-free.app/";
     const shareUrl = `${ngrokUrl}/photo/${photo?.photoId}`;
   
     if (navigator.share) {

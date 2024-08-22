@@ -277,94 +277,45 @@
   "comments": [
     {
       "id": "1",
-      "photoId": 1,
-      "userId": 1,
-      "text": "Rất đẹp",
-      "rate": 4
-    },
-    {
-      "id": "1",
-      "photoId": 2,
-      "userId": 1,
-      "text": "Bình thường",
-      "rate": 2
-    },
-    {
-      "id": "3",
-      "photoId": 3,
-      "userId": 1,
-      "text": "",
-      "rate": 5
-    },
-    {
-      "id": "4",
-      "photoId": 3,
-      "userId": 2,
-      "text": "",
-      "rate": 4
-    },
-    {
-      "id": "5",
-      "photoId": 4,
-      "userId": 2,
-      "text": "Rất đẹp",
-      "rate": 4
-    },
-    {
-      "id": "6",
-      "photoId": 4,
-      "userId": 1,
-      "text": "Bình thường",
-      "rate": 2
-    },
-    {
-      "id": "7",
-      "photoId": 2,
-      "userId": 2,
-      "text": "Rất đẹp",
-      "rate": 4
-    },
-    {
-      "id": "8",
-      "photoId": 1,
-      "userId": 2,
-      "text": "Bình thường",
-      "rate": 2
-    },
-    {
-      "id": "3",
-      "photoId": 1,
-      "userId": 1,
-      "text": "uwow",
-      "rate": 3
-    },
-    {
-      "id": "1",
-      "photoId": 12,
-      "userId": 1,
-      "text": "xin chào",
-      "rate": 4
-    },
-    {
-      "id": "1",
-      "photoId": 10,
-      "userId": 1,
-      "text": "ôi đẹp ghê",
-      "rate": 5
-    },
-    {
-      "id": "2",
-      "photoId": 10,
-      "userId": 1,
-      "text": "hello",
+      "photoId": 7,
+      "userId": 3,
+      "text": "1",
       "rate": 0
     },
     {
-      "id": 4,
-      "photoId": 1,
+      "id": "2",
+      "photoId": 7,
       "userId": 3,
-      "text": "đẹp quá",
-      "rate": 5
+      "text": "2",
+      "rate": 0
+    },
+    {
+      "id": "3",
+      "photoId": 6,
+      "userId": 3,
+      "text": "baque",
+      "rate": 0
+    },
+    {
+      "id": "4",
+      "photoId": 6,
+      "userId": 3,
+      "text": "pog",
+      "rate": 0
+    },
+    {
+      "id": "5",
+      "photoId": 9,
+      "userId": 3,
+      "text": "cmt",
+      "rate": 0
+    },
+    {
+      "id": "6",
+      "photoId": 8,
+      "userId": 3,
+      "text": "homeless",
+      "rate": 0
     }
   ]
 }

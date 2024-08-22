@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, ListGroup, Form, Button, Image, Modal } from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
-import { FaShareAlt, FaStar } from "react-icons/fa";
+import { FaShareAlt, FaStar, FaEdit, FaTrash } from "react-icons/fa";
+
 function PhotoDetails() {
   const { photoid } = useParams();
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ function PhotoDetails() {
   const [hover, setHover] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
+  const [editingComment, setEditingComment] = useState(null); // New state for editing
+  const [showEditModal, setShowEditModal] = useState(false); // Modal visibility state
+  console.log("editingComment", editingComment)
+
+
+  const [commentsLength, setCommentsLength] = useState([]);
+  console.log("commentsLength:", commentsLength)
 
   useEffect(() => {
     axios
@@ -34,16 +42,16 @@ function PhotoDetails() {
         setComments(response.data);
       })
       .catch((err) => console.log("Error: " + err));
+
+    axios
+      .get(`http://localhost:9999/comments`)
+      .then((response) => {
+        setCommentsLength(response.data.length);
+      })
+      .catch((err) => console.log("Error: " + err));
   }, [photoid]);
 
   const handleCommentSubmit = () => {
-    const comment = {
-      id: comments.length + 1,
-      photoId: parseInt(photoid),
-      userId: JSON.parse(localStorage.getItem("user")).userId,
-      text: newComment,
-      rate: newRating,
-    };
 
     axios
       .post("http://localhost:9999/comments", comment)
@@ -52,8 +60,65 @@ function PhotoDetails() {
         setNewComment("");
         setNewRating(0);
       })
+      .then(() => {
+        window.location.reload()
+      })
       .catch((err) => console.log("Error: " + err));
   };
+  const comment = {
+    id: commentsLength + 1,
+    photoId: parseInt(photoid),
+    userId: JSON.parse(localStorage.getItem("user")).userId,
+    text: newComment,
+    rate: newRating,
+  };
+
+  const handleEditComment = (commentId) => {
+    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    const commentToEdit = comments.find((comment) => comment.id === commentId);
+  
+    // Allow editing only if the current user is the author of the comment
+    if (commentToEdit.userId === userId) {
+      setEditingComment(commentToEdit);
+      setShowEditModal(true);
+    } else {
+      alert("You can only edit your own comments.");
+    }
+  };
+  
+
+  const handleUpdateComment = () => {
+    axios
+      .put(`http://localhost:9999/comments/${editingComment.id}`, editingComment)
+      .then(() => {
+        setComments(
+          comments.map((comment) =>
+            comment.id === editingComment.id ? editingComment : comment
+          )
+        );
+        setShowEditModal(false);
+        setEditingComment(null);
+      })
+      .catch((err) => console.log("Error: " + err));
+  };
+
+  const handleDeleteComment = (commentId) => {
+    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    const commentToDelete = comments.find((comment) => comment.id === commentId);
+  
+    // Allow deleting only if the current user is the author of the comment
+    if (commentToDelete.userId === userId) {
+      axios
+        .delete(`http://localhost:9999/comments/${commentId}`)
+        .then(() => {
+          setComments(comments.filter((comment) => comment.id !== commentId));
+        })
+        .catch((err) => console.log("Error: " + err));
+    } else {
+      alert("You can only delete your own comments.");
+    }
+  };
+  
 
   const handleNextImage = () => {
     if (photo) {
@@ -135,7 +200,7 @@ function PhotoDetails() {
             ←
           </div>
         </Col>
-        <Col md={11} >
+        <Col md={11}>
           <Card
             className="photo-card"
             style={{
@@ -144,27 +209,33 @@ function PhotoDetails() {
               borderRadius: "30px",
             }}
           >
-            
-            <Row className="photo-details-content" >
-              <Col md={6} sm={12} className="photo-section"   >
+            <Row className="photo-details-content">
+              <Col md={6} sm={12} className="photo-section">
                 <Row style={{ marginLeft: "0px" }}>
-                  <Card className="photo-card" style={{ borderRadius: "30px"}}>
+                  <Card className="photo-card" style={{ borderRadius: "30px" }}>
                     <Card.Img
                       style={{
                         objectFit: "cover",
                         maxHeight: "600px",
-                        borderTopLeftRadius:"30px",
+                        borderTopLeftRadius: "30px",
                         width: "100%",
                         transition: "transform 0.3s ease-in-out",
                       }}
                       variant="top"
                       src={`/assets/images/${displayedImageUrl}`}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1)"}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
                     />
                   </Card>
                 </Row>
-                <Row className="mt-3" style={{marginBottom:"20px",marginRight:"10px"}}>
+                <Row
+                  className="mt-3"
+                  style={{ marginBottom: "20px", marginRight: "10px" }}
+                >
                   <Col md={1}>
                     <Button
                       variant="link"
@@ -230,7 +301,6 @@ function PhotoDetails() {
                 >
                   <Card className="info-card">
                     <Card.Body>
-                      {/* <h3>Id: {photo.photoId}</h3> */}
                       <h3>{photo.title}</h3>
                       <Button
                         variant="outline-secondary"
@@ -240,7 +310,6 @@ function PhotoDetails() {
                           top: "20px",
                           right: "25px",
                           borderRadius: "50%",
-
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -276,7 +345,12 @@ function PhotoDetails() {
                     {comments.map((comment) => (
                       <ListGroup.Item key={comment.id}>
                         <Row>
-                          <Col>
+                          <Col style={{
+                            display: "flex",
+                            justifyContent: "flex",
+                            alignItems: "center",
+                            justifyItems: "center",
+                          }} >
                             <strong>User {comment.userId}:</strong>{" "}
                             {comment.text}
                           </Col>
@@ -286,7 +360,29 @@ function PhotoDetails() {
                               justifyContent: "flex-end",
                             }}
                           >
-                            <StarRating rating={comment.rate} />
+
+                            <StarRating
+                              style={{
+                                display: "flex",
+                                justifyContent: "flex",
+                                alignItems: "center",
+                                justifyItems: "center",
+                              }}
+                              rating={comment.rate} st />
+                            <Button
+                              variant="link"
+                              onClick={() => handleEditComment(comment.id)}
+                              style={{ paddingLeft: "10px" }}
+                            >
+                              <FaEdit />
+                            </Button>
+                            <Button
+                              variant="link"
+                              onClick={() => handleDeleteComment(comment.id)}
+                              style={{ paddingLeft: "10px", color: "red" }}
+                            >
+                              <FaTrash />
+                            </Button>
                           </Col>
                         </Row>
                       </ListGroup.Item>
@@ -295,7 +391,10 @@ function PhotoDetails() {
                 </div>
                 {JSON.parse(localStorage.getItem("user")) ? (
                   <>
-                    <Form className="mt-4" style={{padding:"0px 20px 0px 20px", alignContent:"center"}}>
+                    <Form
+                      className="mt-4"
+                      style={{ padding: "0px 20px 0px 20px", alignContent: "center" }}
+                    >
                       <Form.Group controlId="commentText">
                         <Form.Control
                           as="textarea"
@@ -368,6 +467,34 @@ function PhotoDetails() {
           </Card>
         </Col>
       </Row>
+
+      {/* Edit Comment Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Comment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="editCommentText">
+            <Form.Label>Edit your comment:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={editingComment?.text || ""}
+              onChange={(e) =>
+                setEditingComment({ ...editingComment, text: e.target.value })
+              }
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdateComment}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
