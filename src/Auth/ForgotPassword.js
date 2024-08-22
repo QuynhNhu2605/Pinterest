@@ -40,11 +40,11 @@ function ForgotPassword() {
                 await axios.put(`http://localhost:9999/users/${checkUser.id}`, updatedUser);
                 setUserCheck(updatedUser);
 
-                await emailjs.send('service_kfmki4n', 'template_mlflhb8', {
-                    to_name: checkUser.name,
+                await emailjs.send('service_8p9ujuc', 'template_h0s2gpt', {
+                    to_name: userCheck.name,
                     to_email: email,
                     verification_code: activeCode,
-                }, 'UtSpjgYyHQ0WusakY');
+                }, '2b-qdQZ3aibs-cDap');
 
                 setMessageEmail('');
                 setSuccessEmail('Active code đã gửi tới email');

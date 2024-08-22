@@ -67,12 +67,12 @@
     {
       "id": "6",
       "userId": 6,
-      "name": "Nhu",
+      "name": "khanh",
       "account": {
         "email": "kimnguyen2652001@gmail.com",
-        "password": "123@",
-        "activeCode": "W0YV5FD",
-        "isActive": false
+        "password": "1234",
+        "activeCode": "",
+        "isActive": true
       },
       "address": {
         "street": "",
