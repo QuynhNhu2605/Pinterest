@@ -448,9 +448,10 @@ function UserPage() {
             {/* Modal for disable album */}
             <Modal show={showDelAlbumModal} onHide={() => setShowDelAlbumModeal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Are you sure want to delete this Album?</Modal.Title>
+                    <Modal.Title>Delete album!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                Are you sure want to delete this Album?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Cancel</Button>
