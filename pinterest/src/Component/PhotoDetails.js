@@ -10,11 +10,15 @@ import {
   Form,
   Button,
   Image,
+  Modal,
 } from "react-bootstrap";
 import axios from "axios";
 import "./PhotoDetails.css";
 import StarRating from "./StarRating";
-import { FaShareAlt, FaStar } from "react-icons/fa";
+import { FaShareAlt, FaStar, FaEdit, FaTrash } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function PhotoDetails() {
   const { photoid } = useParams();
   const navigate = useNavigate();
@@ -26,6 +30,8 @@ function PhotoDetails() {
   const [hover, setHover] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
+  const [editingComment, setEditingComment] = useState(null); // New state for editing
+  const [showEditModal, setShowEditModal] = useState(false); // Modal visibility state
 
   useEffect(() => {
     axios
@@ -54,23 +60,84 @@ function PhotoDetails() {
   }, [photoid]);
 
   const handleCommentSubmit = () => {
+    if (newComment.length > 200) {
+      toast("Bình luận không được dài quá 200 ký tự.");
+      return;
+    }
+    const commentId = totalComment.length > 0 ? totalComment[totalComment.length - 1].id + 1 : 1; // Tự động tăng commentID dựa trên comment cuối cùng
     const comment = {
-      id: totalComment.length + 1,
+
       photoId: parseInt(photoid),
       userId: JSON.parse(localStorage.getItem("user")).userId,
       text: newComment,
       rate: newRating,
+
     };
 
     axios
       .post("http://localhost:9999/comments", comment)
       .then((response) => {
+        // Cập nhật state với bình luận mới
         setComments([...comments, response.data]);
+        setTotalComment([...totalComment, response.data]); // Cập nhật totalComment để có thể tăng ID ở lần tiếp theo
         setNewComment("");
         setNewRating(0);
       })
       .catch((err) => console.log("Error: " + err));
   };
+
+
+
+
+  const handleEditComment = (commentId) => {
+    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    const commentToEdit = comments.find((comment) => comment.id === commentId);
+
+    // Allow editing only if the current user is the author of the comment
+    if (commentToEdit.userId === userId) {
+      setEditingComment(commentToEdit);
+      setShowEditModal(true);
+    } else {
+      alert("You can only edit your own comments.");
+    }
+  };
+
+  const handleUpdateComment = () => {
+    axios
+      .put(`http://localhost:9999/comments/${editingComment.id}`, editingComment)
+      .then((response) => {
+        // Cập nhật state với bình luận đã chỉnh sửa
+        setComments(
+          comments.map((comment) =>
+            comment.id === editingComment.id ? response.data : comment
+          )
+        );
+        setShowEditModal(false); // Đóng modal sau khi cập nhật thành công
+        setEditingComment(null); // Xóa trạng thái chỉnh sửa
+      })
+      .catch((err) => console.log("Error: " + err));
+  };
+
+
+
+  const handleDeleteComment = (commentId) => {
+    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    const commentToDelete = comments.find((comment) => comment.id === commentId);
+
+    if (commentToDelete.userId === userId) {
+      axios
+        .delete(`http://localhost:9999/comments/${commentId}`)
+        .then(() => {
+          // Cập nhật state sau khi xóa thành công
+          setComments(comments.filter((comment) => comment.id !== commentId));
+        })
+        .catch((err) => console.log("Error: " + err));
+    } else {
+      alert("You can only delete your own comments.");
+    }
+  };
+
+
 
   const handleNextImage = () => {
     if (photo) {
@@ -142,7 +209,9 @@ function PhotoDetails() {
   );
 
   return (
+    
     <Container fluid className="photo-details-page">
+      <ToastContainer />
       <Row>
         <Col md={1}>
           <div
@@ -253,7 +322,6 @@ function PhotoDetails() {
                 >
                   <Card className="info-card">
                     <Card.Body>
-                      {/* <h3>Id: {photo.photoId}</h3> */}
                       <h3>{photo.title}</h3>
                       <Button
                         variant="outline-secondary"
@@ -300,8 +368,7 @@ function PhotoDetails() {
                       <ListGroup.Item key={comment.id}>
                         <Row>
                           <Col>
-                            <strong>User {comment.userId}:</strong>{" "}
-                            {comment.text}
+                            <strong>User {comment.userId}:</strong> {comment.text}
                           </Col>
                           <Col
                             style={{
@@ -310,10 +377,29 @@ function PhotoDetails() {
                             }}
                           >
                             <StarRating rating={comment.rate} />
+                            {comment.userId === JSON.parse(localStorage.getItem("user")).userId && (
+                              <>
+                                <Button
+                                  variant="link"
+                                  onClick={() => handleEditComment(comment.id)}
+                                  style={{ paddingLeft: "10px" }}
+                                >
+                                  <FaEdit />
+                                </Button>
+                                <Button
+                                  variant="link"
+                                  onClick={() => handleDeleteComment(comment.id)}
+                                  style={{ paddingLeft: "10px", color: "red" }}
+                                >
+                                  <FaTrash />
+                                </Button>
+                              </>
+                            )}
                           </Col>
                         </Row>
                       </ListGroup.Item>
                     ))}
+
                   </ListGroup>
                 </div>
                 {JSON.parse(localStorage.getItem("user")) ? (
@@ -336,6 +422,7 @@ function PhotoDetails() {
                             borderRadius: "20px",
                             padding: "10px",
                           }}
+                          placeholder="Write comment (Less than 200 characters)"
                         />
                       </Form.Group>
                       <Row>
@@ -397,6 +484,34 @@ function PhotoDetails() {
           </Card>
         </Col>
       </Row>
+
+      {/* Edit Comment Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Comment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="editCommentText">
+            <Form.Label>Edit your comment:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={editingComment?.text || ""}
+              onChange={(e) =>
+                setEditingComment({ ...editingComment, text: e.target.value })
+              }
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdateComment}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

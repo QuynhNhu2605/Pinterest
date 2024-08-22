@@ -409,11 +409,18 @@
       "rate": 2
     },
     {
-      "id": 9,
+      "id": "9",
       "photoId": 1,
       "userId": 2,
       "text": "wow",
       "rate": 3
+    },
+    {
+      "id": "10",
+      "photoId": 1,
+      "userId": 3,
+      "text": "áda",
+      "rate": 0
     }
   ]
 }
