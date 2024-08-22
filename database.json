@@ -70,31 +70,36 @@
       "id": "1",
       "albumId": 1,
       "title": "Spring",
-      "userId": 1
+      "userId": 1,
+      "isActive": true
     },
     {
       "id": "2",
       "albumId": 2,
       "title": "Summer",
-      "userId": 2
+      "userId": 2,
+      "isActive": true
     },
     {
       "id": "3",
       "albumId": 3,
       "title": "Autumn",
-      "userId": 2
+      "userId": 2,
+      "isActive": true
     },
     {
       "id": "4",
       "albumId": 4,
       "title": "Winter",
-      "userId": 1
+      "userId": 1,
+      "isActive": true
     },
     {
       "id": "5",
       "albumId": 5,
       "title": "Khanhzs",
-      "userId": 6
+      "userId": 6,
+      "isActive": true
     }
   ],
   "photos": [

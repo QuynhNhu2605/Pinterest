@@ -132,7 +132,7 @@ function Header() {
               justifyContent: "center",
             }}
           >
-            {albums?.map((a) => (
+            {albums?.map((a) => ( a.isActive &&
               <li
                 key={a.id}
                 style={{ marginLeft: "10px", marginRight: "10px" }}
