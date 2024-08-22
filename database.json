@@ -1,0 +1,342 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userId": 1,
+      "name": "Quỳnh Nhưư",
+      "account": {
+        "email": "u1@gmail.com",
+        "password": "abc@123",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "190 Nguyễn Tuân, Thanh Xuân",
+        "city": "Hà Nộii",
+        "zipCode": 10000
+      }
+    },
+    {
+      "id": "2",
+      "userId": 2,
+      "name": "jametime",
+      "account": {
+        "email": "u2@gmail.com",
+        "password": "abc@123@",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "256 Đường Láng, Cầu Giấy",
+        "city": "Hà Nội",
+        "zipCode": 10000
+      }
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "name": "khanh",
+      "account": {
+        "email": "1@gmail.com",
+        "password": "khanh2003@",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "Hà",
+        "city": "Nội",
+        "zipCode": "10000"
+      }
+    },
+    {
+      "id": "5",
+      "userId": 5,
+      "name": "khanh",
+      "account": {
+        "email": "2@gmail.com",
+        "password": "khanh2003",
+        "activeCode": "",
+        "isActive": true
+      },
+      "address": {
+        "street": "Hà Nội",
+        "city": "Hà Nội",
+        "zipCode": "10000"
+      }
+    }
+  ],
+  "albums": [
+    {
+      "id": "1",
+      "albumId": 1,
+      "title": "Spring",
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "albumId": 2,
+      "title": "Summer",
+      "userId": 2
+    },
+    {
+      "id": "3",
+      "albumId": 3,
+      "title": "Autumn",
+      "userId": 2
+    },
+    {
+      "id": "4",
+      "albumId": 4,
+      "title": "Winter",
+      "userId": 1
+    }
+  ],
+  "photos": [
+    {
+      "id": "1",
+      "photoId": 1,
+      "title": "Spring1",
+      "image": {
+        "url": [
+          "pin10.jpg",
+          "pin3.jpg",
+          "pin4.jpg",
+          "pin20.jpg",
+          "pin19.jpg",
+          "pin18.jpg",
+          "pin17.jpg"
+        ],
+        "thumbnail": "pin1.jpg"
+      },
+      "albumId": 1,
+      "tags": [
+        "summer",
+        "hot",
+        "new"
+      ]
+    },
+    {
+      "id": "3",
+      "photoId": 3,
+      "title": "Autumn1",
+      "image": {
+        "url": "pin7.jpg",
+        "thumbnail": "pin20.jpg"
+      },
+      "albumId": 2,
+      "tags": [
+        "hot"
+      ]
+    },
+    {
+      "id": "4",
+      "photoId": 4,
+      "title": "Winters",
+      "image": {
+        "url": "pin9.jpg",
+        "thumbnail": "pin19.jpg"
+      },
+      "albumId": 2,
+      "tags": [
+        "beutiful"
+      ]
+    },
+    {
+      "photoId": 5,
+      "title": "Photo 5",
+      "image": {
+        "url": "pin11.jpg",
+        "thumbnail": "pin12.jpg"
+      },
+      "albumId": 2,
+      "id": "5",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 6,
+      "title": "Photo 6",
+      "image": {
+        "url": "pin13.jpg",
+        "thumbnail": "pin14.jpg"
+      },
+      "albumId": 3,
+      "id": "6",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 7,
+      "title": "Photo 7",
+      "image": {
+        "url": "pin15.jpg",
+        "thumbnail": "pin16.jpg"
+      },
+      "albumId": 3,
+      "id": "7",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 8,
+      "title": "Photo 8",
+      "image": {
+        "url": "pin17.jpg",
+        "thumbnail": "pin18.jpg"
+      },
+      "albumId": 3,
+      "id": "8",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 9,
+      "title": "Photo 9",
+      "image": {
+        "url": "pin19.jpg",
+        "thumbnail": "pin20.jpg"
+      },
+      "albumId": 4,
+      "id": "9",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 10,
+      "title": "Photo 10",
+      "image": {
+        "url": "pin1.jpg",
+        "thumbnail": "pin2.jpg"
+      },
+      "albumId": 4,
+      "id": "10",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 11,
+      "title": "Photo 11",
+      "image": {
+        "url": "pin3.jpg",
+        "thumbnail": "pin4.jpg"
+      },
+      "albumId": 4,
+      "id": "11",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "photoId": 14,
+      "title": "Photo 14",
+      "image": {
+        "url": "pin9.jpg",
+        "thumbnail": "pin10.jpg"
+      },
+      "albumId": 3,
+      "id": "14",
+      "tags": [
+        "col",
+        "hot"
+      ]
+    },
+    {
+      "id": 12,
+      "photoId": 12,
+      "title": "Spring",
+      "image": {
+        "url": "cake8.jpg",
+        "thumbnail": "cake7.jpg"
+      },
+      "albumId": 2,
+      "tags": [
+        "hot"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "id": "3",
+      "photoId": 3,
+      "userId": 1,
+      "text": "",
+      "rate": 5
+    },
+    {
+      "id": "4",
+      "photoId": 3,
+      "userId": 2,
+      "text": "",
+      "rate": 4
+    },
+    {
+      "id": "5",
+      "photoId": 4,
+      "userId": 2,
+      "text": "Rất đẹp",
+      "rate": 4
+    },
+    {
+      "id": "6",
+      "photoId": 4,
+      "userId": 1,
+      "text": "Bình thường",
+      "rate": 2
+    },
+    {
+      "id": "8",
+      "photoId": 1,
+      "userId": 2,
+      "text": "Bình thường",
+      "rate": 2
+    },
+    {
+      "id": "3",
+      "photoId": 1,
+      "userId": 1,
+      "text": "uwow",
+      "rate": 3
+    },
+    {
+      "id": "1",
+      "photoId": 12,
+      "userId": 1,
+      "text": "xin chào",
+      "rate": 4
+    },
+    {
+      "id": "1",
+      "photoId": 10,
+      "userId": 1,
+      "text": "ôi đẹp ghê",
+      "rate": 5
+    },
+    {
+      "id": "2",
+      "photoId": 10,
+      "userId": 1,
+      "text": "hello",
+      "rate": 0
+    },
+    {
+      "id": 4,
+      "photoId": 1,
+      "userId": 3,
+      "text": "đẹp quá",
+      "rate": 5
+    }
+  ]
+}

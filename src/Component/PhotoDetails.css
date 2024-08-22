@@ -1,0 +1,92 @@
+.photo-details-page {
+    padding: 20px;
+}
+
+.photo-details-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.SubCmt{
+    margin-top: 0px !important;
+}
+
+.info-section {
+    padding-left: 20px;
+}
+
+.photo-card img {
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.photo-card img:hover {
+    transform: scale(1.05);
+}
+
+.info-card {
+    border: none;
+    border-radius: 20px;
+}
+
+.info-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.tags {
+    margin-bottom: 20px;
+}
+
+.tags .badge {
+    font-size: 14px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-control {
+    margin-bottom: 15px;
+    border-radius: 20px;
+}
+
+.btnSub {
+    background-color: #00bf89;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btnSub:hover {
+    background-color: #00c990cd;
+}
+
+@media (max-width: 768px) {
+    .photo-section, .info-section {
+        padding: 0;
+    }
+
+    .info-section {
+        margin-top: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+    }
+}
