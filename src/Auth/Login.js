@@ -21,7 +21,7 @@ export default function Login(){
                             localStorage.setItem('user', JSON.stringify(user));
                             window.location.href = '/';
                         } else {
-                            setError('Account is not active');
+                            navigate('/auth/activate', {state: {email: email}});
                         }
                     } else {
                         setError('Invalid email or password');

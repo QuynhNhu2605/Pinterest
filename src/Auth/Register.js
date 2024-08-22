@@ -55,11 +55,11 @@ export default function Register() {
             await axios.post("http://localhost:9999/users", newUser);
 
             //gửi mail xác nhận
-            await emailjs.send('service_kfmki4n', 'template_ssq8bhf', {
+            await emailjs.send('service_8p9ujuc', 'template_tect6kh', {
                 to_name: name,
                 to_email: email,
                 verification_code: activeCode,
-            }, 'UtSpjgYyHQ0WusakY')
+            }, '2b-qdQZ3aibs-cDap')
             .then((result) => {
                 console.log('Email sent: ', result.text);
                 

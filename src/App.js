@@ -11,6 +11,7 @@ import "./App.css";
 import Verify from "./Auth/Verify";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import ActiveEmail from "./Auth/ActiveEmail";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/auth/active-account/:key"  element={<Verify/>}/>
           <Route path="auth/forgotPassword" element={<ForgotPassword/>}/>
           <Route path="/auth/resetPassword/:key" element={<ResetPassword/>} />
+          <Route path="/auth/activate" element={<ActiveEmail/>}/>
         </Routes>
       </BrowserRouter>
       <Footer/>
