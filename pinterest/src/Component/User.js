@@ -139,6 +139,7 @@ function UserPage() {
                 .then(() => {
                     setAlbums([...albums, newAlbum]);
                     setShowAlbumModal(false);
+                    // localStorage.setItem('albums', JSON.stringify(albums));
                     window.location.reload(); //To reload the header, remove if no need
                 })
                 .catch(err => console.error(err));
