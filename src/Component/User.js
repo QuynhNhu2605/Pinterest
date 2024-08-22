@@ -5,12 +5,12 @@ import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faL, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useAlbums } from '../Component/AlbumsContext'; // Import useAlbums
+
 function UserPage() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('profile');
     const [user, setUser] = useState(null);
-    const { albums, setAlbums } = useAlbums(); 
+    const [albums, setAlbums] = useState([]);
     const [countAlbums, setCountAlbums] = useState(0);
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
@@ -54,8 +54,6 @@ function UserPage() {
             fetchAlbums();
         }
     }, [navigate]);
-
-    console.log(albums)
 
     useEffect(() => {
         if (selectedAlbumId !== null) {
@@ -140,8 +138,7 @@ function UserPage() {
                 .then(() => {
                     setAlbums([...albums, newAlbum]);
                     setShowAlbumModal(false);
-                    // localStorage.setItem('albums', JSON.stringify(albums));
-                    // window.location.reload(); //To reload the header, remove if no need
+                    window.location.reload(); //To reload the header, remove if no need
                 })
                 .catch(err => console.error(err));
         }
@@ -165,7 +162,7 @@ function UserPage() {
             axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, editAlbum)
                 .then(() => {
                     setShowEditAlbumModal(false);
-                    // window.location.reload(); //To reload the header, remove if no need
+                    window.location.reload(); //To reload the header, remove if no need
                 })
                 .catch(err => console.error(err));
         }
@@ -175,8 +172,7 @@ function UserPage() {
         const disableAlbum = async () => {
             try {
                 await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, {isActive: false})
-                // window.location.reload();   
-                setShowDelAlbumModeal(false)
+                window.location.reload();
             } catch (error) {
                 console.log(error);
                 

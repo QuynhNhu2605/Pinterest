@@ -2,10 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row, Image, Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useAlbums } from '../Component/AlbumsContext'; // Import useAlbums
 
 function Header() {
-  const { albums, setAlbums } = useAlbums(); 
+  const [albums, setAlbums] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const checkUser = JSON.parse(localStorage.getItem("user"));

@@ -1,0 +1,48 @@
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+}
+
+.top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.auth-links {
+    display: flex;
+    gap: 20px;
+}
+
+.auth-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.menu {
+    padding-top: 10px;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.menu li {
+    display: inline;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu li a:hover {
+    background-color: #007bff;
+    color: white;
+}
