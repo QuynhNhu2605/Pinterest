@@ -12,15 +12,22 @@ function Verify() {
     const [saveData, setSaveData] = useState({});
     const [saveEmail, setSaveEmail] = useState('');
 
-    useEffect( async () => {
-        await axios.get(`http://localhost:9999/users/${key}`).then(response => {
-            const data = response.data;
-            setSaveData(data);
-            if (data) {
-                setSaveEmail(data.account.email);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9999/users/${key}`);
+                const data = response.data;
+                setSaveData(data);
+                if (data) {
+                    setSaveEmail(data.account.email);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
             }
-        })
-    }, []);
+        };
+    
+        fetchData();
+    }, [key]);
     const handleVerify = async (event) => {
         event.preventDefault();
         if (code.trim() === '') {

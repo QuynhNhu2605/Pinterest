@@ -11,20 +11,27 @@ function ResetPassword() {
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [error, setError] = useState("");
-    useEffect( async () => {
-        await axios.get(`http://localhost:9999/users/${key}`).then(response => {
-            const data = response.data;
-            setEmail(data.account.email);
-            setData(data);
-        })
-    })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9999/users/${key}`);
+                const data = response.data;
+                setEmail(data.account.email);
+                setData(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [key]);
     const handleResetPassword = async (event) => {
         event.preventDefault();
-        if(password.trim==="" || repeatPassword.trim()===""){
+        if (password.trim === "" || repeatPassword.trim() === "") {
             setError("Please enter new password");
             return;
         }
-        if(password!==repeatPassword){
+        if (password !== repeatPassword) {
             setError("Password not match");
             return;
         }
@@ -36,7 +43,7 @@ function ResetPassword() {
             }
         });
         navigate("/auth/login");
-        
+
     }
     return (
         <Container style={{ marginTop: "50px" }}>
@@ -48,8 +55,8 @@ function ResetPassword() {
                     <Form.Control type="password" placeholder="Enter new password" onChange={(e) => setPassword(e.target.value)} />
                     <Form.Label>Repeat New Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter new password" onChange={(e) => setRepeatPassword(e.target.value)} />
-                        <p style={{ color: "red" }}>{error}</p>
-                    <Button variant="primary" type="submit" style={{marginBlockStart: "10px",marginBlockEnd:"10px"}}>Enter</Button>
+                    <p style={{ color: "red" }}>{error}</p>
+                    <Button variant="primary" type="submit" style={{ marginBlockStart: "10px", marginBlockEnd: "10px" }}>Enter</Button>
                 </Form.Group>
 
             </Form>

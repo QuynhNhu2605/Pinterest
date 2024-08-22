@@ -3,12 +3,15 @@ import { Container, Row, Col, ListGroup, Card, Button, Form, Modal } from 'react
 import { useNavigate, Link } from 'react-router-dom';
 import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 function UserPage() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('profile');
     const [user, setUser] = useState(null);
     const [albums, setAlbums] = useState([]);
+    const [countAlbums, setCountAlbums] = useState(0);
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -16,7 +19,11 @@ function UserPage() {
     const [editedUser, setEditedUser] = useState({});
     const [errors, setErrors] = useState({});
     const [showAlbumModal, setShowAlbumModal] = useState(false);
+    const [showEditAlbumModal, setShowEditAlbumModal] = useState(false);
     const [newAlbumTitle, setNewAlbumTitle] = useState("");
+    const [newAlbumTitleErr, setNewAlbumTitleErr] = useState("");
+    const [editAlbumTitle, setEditAlbumTitle] = useState("");
+    const [editAlbumTitleErr, setEditAlbumTitleErr] = useState("");
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [newPhoto, setNewPhoto] = useState({
         title: "",
@@ -32,17 +39,33 @@ function UserPage() {
             setUser(checkUser);
             setEditedUser(checkUser);
 
-            axios.get(`http://localhost:9999/albums?userId=${checkUser.userId}`)
-                .then(res => setAlbums(res.data))
-                .catch(err => console.error(err));
+            const fetchAlbums = async () => {
+                try {
+                    const albumResponse = await axios.get(`http://localhost:9999/albums`)
+                    setAlbums(albumResponse.data?.filter(a => a.userId == checkUser.userId));
+                    setCountAlbums(albumResponse.data.length);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+
+            fetchAlbums();
         }
     }, [navigate]);
 
     useEffect(() => {
         if (selectedAlbumId !== null) {
-            axios.get(`http://localhost:9999/photos?albumId=${selectedAlbumId}`)
-                .then(res => setPhotos(res.data))
-                .catch(err => console.error(err));
+            const fetchPhotos = async () => {
+                try {
+                    const resPhoto = await axios.get(`http://localhost:9999/photos?albumId=${selectedAlbumId}`)
+                    setPhotos(resPhoto.data);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+
+            fetchPhotos();
         }
     }, [selectedAlbumId]);
 
@@ -91,18 +114,56 @@ function UserPage() {
     };
 
     const handleAddAlbum = () => {
-        const newAlbum = {
-            id: albums.length + 1,
-            albumId: albums.length + 1,
-            title: newAlbumTitle,
-            userId: user.userId
-        };
-        axios.post('http://localhost:9999/albums', newAlbum)
-            .then(() => {
-                setAlbums([...albums, newAlbum]);
-                setShowAlbumModal(false);
-            })
-            .catch(err => console.error(err));
+        let isValid = true;
+
+        if (newAlbumTitle.length == 0) {
+            isValid = false;
+            setNewAlbumTitleErr("Title must not empty");
+        } else {
+            isValid = true;
+            setNewAlbumTitleErr("");
+        }
+
+        if (isValid) {
+
+            const newAlbum = {
+                id: (countAlbums + 1).toString(),
+                albumId: countAlbums + 1,
+                title: newAlbumTitle,
+                userId: user.userId
+            };
+            axios.post('http://localhost:9999/albums', newAlbum)
+                .then(() => {
+                    setAlbums([...albums, newAlbum]);
+                    setShowAlbumModal(false);
+                    window.location.reload(); //To reload the header, remove if no need
+                })
+                .catch(err => console.error(err));
+        }
+    };
+
+    const handleUpdateAlbum = () => {
+        let isValid = true;
+
+        if (editAlbumTitle.length == 0) {
+            isValid = false;
+            setEditAlbumTitleErr("Title must not empty");
+        } else {
+            isValid = true;
+            setEditAlbumTitleErr("");
+        }
+
+        if (isValid) {
+            const editAlbum = {
+                title: editAlbumTitle
+            };
+            axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, editAlbum)
+                .then(() => {
+                    setShowEditAlbumModal(false);
+                    window.location.reload(); //To reload the header, remove if no need
+                })
+                .catch(err => console.error(err));
+        }
     };
 
     const handleAddPhoto = () => {
@@ -249,14 +310,25 @@ function UserPage() {
         <Row>
             <Col md={4}>
                 <ListGroup>
-                    {albums.map(album => (
+                    {albums?.map(album => (
                         <ListGroup.Item
                             key={album.albumId}
                             action
                             active={selectedAlbumId === album.albumId}
                             onClick={() => setSelectedAlbumId(album.albumId)}
+                            className='p-2'
                         >
-                            {album.title}
+                            <ul className='d-flex mb-0' style={{ listStyle: "none" }}>
+                                <li >
+                                    {album.title}
+                                </li>
+                                <li className='ms-auto'>
+                                    <Button variant='warning' onClick={() => setShowEditAlbumModal(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                                </li>
+                                <li className='ps-2'>
+                                    <Button variant='danger'><FontAwesomeIcon icon={faTrash} /></Button>
+                                </li>
+                            </ul>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
@@ -301,10 +373,10 @@ function UserPage() {
             <Row style={{ marginTop: "20px" }}>
                 <Col md={3}>
                     <ListGroup>
-                        <ListGroup.Item action active={activeTab === 'profile'} onClick={() => { setActiveTab('profile'); setSelectedAlbumId(null); }}>
+                        <ListGroup.Item action active={activeTab === 'profile'} onClick={() => { setActiveTab('profile'); setSelectedAlbumId(null); }} className='p-2'>
                             User Profile
                         </ListGroup.Item>
-                        <ListGroup.Item action active={activeTab === 'albums'} onClick={() => { setActiveTab('albums'); setSelectedAlbumId(null); }}>
+                        <ListGroup.Item action active={activeTab === 'albums'} onClick={() => { setActiveTab('albums'); setSelectedAlbumId(null); }} className='p-2'>
                             Albums
                         </ListGroup.Item>
                     </ListGroup>
@@ -315,25 +387,47 @@ function UserPage() {
             </Row>
 
             {/* Modal for adding new album */}
-            {/* <Modal show={showAlbumModal} onHide={() => setShowAlbumModal(false)}>
+            <Modal show={showAlbumModal} onHide={() => setShowAlbumModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add New Album</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group>
                         <Form.Label>Album Title</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            value={newAlbumTitle} 
-                            onChange={(e) => setNewAlbumTitle(e.target.value)} 
+                        <Form.Control
+                            type="text"
+                            value={newAlbumTitle}
+                            onChange={(e) => setNewAlbumTitle(e.target.value)}
                         />
+                        {newAlbumTitleErr && <span style={{ color: "red" }}>{newAlbumTitleErr}</span>}
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowAlbumModal(false)}>Close</Button>
                     <Button variant="primary" onClick={handleAddAlbum}>Add Album</Button>
                 </Modal.Footer>
-            </Modal> */}
+            </Modal>
+
+            {/* Modal for updating new album */}
+            <Modal show={showEditAlbumModal} onHide={() => setShowEditAlbumModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Album</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>Album Title</Form.Label>
+                        <Form.Control
+                            type="text"
+                            onChange={(e) => setEditAlbumTitle(e.target.value)}
+                        />
+                        {editAlbumTitleErr && <span style={{ color: "red" }}>{editAlbumTitleErr}</span>}
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Close</Button>
+                    <Button variant="primary" onClick={handleUpdateAlbum}>Save Change</Button>
+                </Modal.Footer>
+            </Modal>
 
             {/* Modal for adding new photo */}
             {/* <Modal show={showPhotoModal} onHide={() => setShowPhotoModal(false)}>
