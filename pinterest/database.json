@@ -27,8 +27,8 @@
         "isActive": true
       },
       "address": {
-        "street": "256 Đường Láng, Cầu Giấy",
-        "city": "Hà Nội",
+        "street": "256 Đường Láng, Cầu Giấy, Hn",
+        "city": "Hà Nội.",
         "zipCode": 10000
       }
     },
@@ -69,14 +69,14 @@
       "userId": 6,
       "name": "Nhu",
       "account": {
-        "email": "nhuntqhe153699@fpt.edu.vn",
+        "email": "kimnguyen2652001@gmail.com",
         "password": "123@",
-        "activeCode": "UDB8ZQB",
-        "isActive": true
+        "activeCode": "W0YV5FD",
+        "isActive": false
       },
       "address": {
-        "street": "190 Nguyễn Tuân, Thanh Xuân, Hà Nội",
-        "city": "Hn",
+        "street": "",
+        "city": "",
         "zipCode": "10000"
       }
     }
@@ -129,6 +129,48 @@
       "albumId": 7,
       "title": "QN",
       "userId": 1,
+      "isActive": false
+    },
+    {
+      "id": "8",
+      "albumId": 8,
+      "title": "QN",
+      "userId": 2,
+      "isActive": false
+    },
+    {
+      "id": "9",
+      "albumId": 9,
+      "title": "QN",
+      "userId": 2,
+      "isActive": false
+    },
+    {
+      "id": "10",
+      "albumId": 10,
+      "title": "QN",
+      "userId": 2,
+      "isActive": false
+    },
+    {
+      "id": "11",
+      "albumId": 11,
+      "title": "QN",
+      "userId": 2,
+      "isActive": false
+    },
+    {
+      "id": "12",
+      "albumId": 12,
+      "title": "QN",
+      "userId": 2,
+      "isActive": false
+    },
+    {
+      "id": "13",
+      "albumId": 13,
+      "title": "QN",
+      "userId": 2,
       "isActive": false
     }
   ],
@@ -367,39 +409,11 @@
       "rate": 2
     },
     {
-      "id": "3",
+      "id": 9,
       "photoId": 1,
-      "userId": 1,
-      "text": "uwow",
+      "userId": 2,
+      "text": "wow",
       "rate": 3
-    },
-    {
-      "id": "1",
-      "photoId": 12,
-      "userId": 1,
-      "text": "xin chào",
-      "rate": 4
-    },
-    {
-      "id": "1",
-      "photoId": 10,
-      "userId": 1,
-      "text": "ôi đẹp ghê",
-      "rate": 5
-    },
-    {
-      "id": "2",
-      "photoId": 10,
-      "userId": 1,
-      "text": "hello",
-      "rate": 0
-    },
-    {
-      "id": "4",
-      "photoId": 1,
-      "userId": 3,
-      "text": "đẹp quá",
-      "rate": 5
     }
   ]
 }
