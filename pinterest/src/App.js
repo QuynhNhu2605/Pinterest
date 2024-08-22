@@ -11,10 +11,11 @@ import "./App.css";
 import Verify from "./Auth/Verify";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import { AlbumsProvider } from "./Component/AlbumContext";
 
 function App() {
   return (
-    <div>
+    <AlbumsProvider>
       <BrowserRouter>
         <Header/>
         <Routes>
@@ -30,7 +31,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Footer/>
-    </div>
+    </AlbumsProvider>
   );
 }
 
