@@ -171,11 +171,11 @@ function UserPage() {
     const handleDelAlbum = () => {
         const disableAlbum = async () => {
             try {
-                await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, {isActive: false})
+                await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, { isActive: false })
                 window.location.reload();
             } catch (error) {
                 console.log(error);
-                
+
             }
         }
 
@@ -290,7 +290,7 @@ function UserPage() {
                         <Form.Label column sm="2">Password</Form.Label>
                         <Col sm="2">
                             <Form.Control
-                                type= {isEditPassword ? "text" : "password"}
+                                type={isEditPassword ? "text" : "password"}
                                 isInvalid={!!errors.city}
                                 plaintext={!isEditPassword}
                                 readOnly={!isEditPassword}
@@ -305,7 +305,7 @@ function UserPage() {
                         <Col sm="8">
                             {
                                 isEditing && (
-                                        <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
+                                    <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
                                 )
                             }
 
@@ -451,10 +451,10 @@ function UserPage() {
                     <Modal.Title>Delete album!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                Are you sure want to delete this Album?
+                    Are you sure want to delete this Album?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Cancel</Button>
+                    <Button variant="secondary" onClick={() => setShowDelAlbumModeal(false)}>Cancel</Button>
                     <Button variant="danger" onClick={handleDelAlbum}>Delete</Button>
                 </Modal.Footer>
             </Modal>
