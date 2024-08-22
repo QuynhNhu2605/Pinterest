@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faL, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 function UserPage() {
     const navigate = useNavigate();
@@ -20,6 +20,7 @@ function UserPage() {
     const [errors, setErrors] = useState({});
     const [showAlbumModal, setShowAlbumModal] = useState(false);
     const [showEditAlbumModal, setShowEditAlbumModal] = useState(false);
+    const [showDelAlbumModal, setShowDelAlbumModeal] = useState(false);
     const [newAlbumTitle, setNewAlbumTitle] = useState("");
     const [newAlbumTitleErr, setNewAlbumTitleErr] = useState("");
     const [editAlbumTitle, setEditAlbumTitle] = useState("");
@@ -130,7 +131,8 @@ function UserPage() {
                 id: (countAlbums + 1).toString(),
                 albumId: countAlbums + 1,
                 title: newAlbumTitle,
-                userId: user.userId
+                userId: user.userId,
+                isActive: true,
             };
             axios.post('http://localhost:9999/albums', newAlbum)
                 .then(() => {
@@ -165,6 +167,20 @@ function UserPage() {
                 .catch(err => console.error(err));
         }
     };
+
+    const handleDelAlbum = () => {
+        const disableAlbum = async () => {
+            try {
+                await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, {isActive: false})
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
+        disableAlbum();
+    }
 
     const handleAddPhoto = () => {
         const newPhotoData = {
@@ -310,7 +326,7 @@ function UserPage() {
         <Row>
             <Col md={4}>
                 <ListGroup>
-                    {albums?.map(album => (
+                    {albums?.map(album => album.isActive && (
                         <ListGroup.Item
                             key={album.albumId}
                             action
@@ -326,7 +342,7 @@ function UserPage() {
                                     <Button variant='warning' onClick={() => setShowEditAlbumModal(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
                                 </li>
                                 <li className='ps-2'>
-                                    <Button variant='danger'><FontAwesomeIcon icon={faTrash} /></Button>
+                                    <Button variant='danger' onClick={() => setShowDelAlbumModeal(true)}><FontAwesomeIcon icon={faTrash} /></Button>
                                 </li>
                             </ul>
                         </ListGroup.Item>
@@ -426,6 +442,19 @@ function UserPage() {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Close</Button>
                     <Button variant="primary" onClick={handleUpdateAlbum}>Save Change</Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal for disable album */}
+            <Modal show={showDelAlbumModal} onHide={() => setShowDelAlbumModeal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Are you sure want to delete this Album?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Cancel</Button>
+                    <Button variant="danger" onClick={handleDelAlbum}>Delete</Button>
                 </Modal.Footer>
             </Modal>
 
