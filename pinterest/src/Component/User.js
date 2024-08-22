@@ -14,6 +14,7 @@ function UserPage() {
     const [countAlbums, setCountAlbums] = useState(0);
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
+    const [selectedAlbumTitle, setSelectedAlbumTitle] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [isEditPassword, setIsEditPassword] = useState(false);
     const [editedUser, setEditedUser] = useState({});
@@ -143,6 +144,16 @@ function UserPage() {
                 .catch(err => console.error(err));
         }
     };
+
+    const handleShowEditAlbumModal = (albumId) => {
+        const foundAlb = albums?.find(a => a.id == albumId)
+
+        if(foundAlb) {
+            setSelectedAlbumTitle(foundAlb.title);
+        }
+
+        setShowEditAlbumModal(true);
+    }
 
     const handleUpdateAlbum = () => {
         let isValid = true;
@@ -339,7 +350,7 @@ function UserPage() {
                                     {album.title}
                                 </li>
                                 <li className='ms-auto'>
-                                    <Button variant='warning' onClick={() => setShowEditAlbumModal(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                                    <Button variant='warning' onClick={() => handleShowEditAlbumModal(album.id)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
                                 </li>
                                 <li className='ps-2'>
                                     <Button variant='danger' onClick={() => setShowDelAlbumModeal(true)}><FontAwesomeIcon icon={faTrash} /></Button>
@@ -348,7 +359,7 @@ function UserPage() {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
-                <Button variant="primary" onClick={() => setShowAlbumModal(true)} style={{ marginTop: '10px' }}>Add New Album</Button>
+                <Button variant="success" onClick={() => setShowAlbumModal(true)} style={{ marginTop: '10px' }}>Add New Album</Button>
             </Col>
             <Col md={8}>
                 {selectedAlbumId && (
@@ -434,6 +445,7 @@ function UserPage() {
                         <Form.Label>Album Title</Form.Label>
                         <Form.Control
                             type="text"
+                            defaultValue={selectedAlbumTitle}
                             onChange={(e) => setEditAlbumTitle(e.target.value)}
                         />
                         {editAlbumTitleErr && <span style={{ color: "red" }}>{editAlbumTitleErr}</span>}
