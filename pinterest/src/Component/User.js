@@ -5,15 +5,18 @@ import { FaPen } from 'react-icons/fa';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faL, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useAlbums } from './AlbumContext';
 
 function UserPage() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('profile');
     const [user, setUser] = useState(null);
-    const [albums, setAlbums] = useState([]);
+    // const [albums, setAlbums] = useState([]);
+    const { albums, setAlbums } = useAlbums(); 
     const [countAlbums, setCountAlbums] = useState(0);
     const [photos, setPhotos] = useState([]);
     const [selectedAlbumId, setSelectedAlbumId] = useState(null);
+    const [selectedAlbumTitle, setSelectedAlbumTitle] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [isEditPassword, setIsEditPassword] = useState(false);
     const [editedUser, setEditedUser] = useState({});
@@ -138,11 +141,22 @@ function UserPage() {
                 .then(() => {
                     setAlbums([...albums, newAlbum]);
                     setShowAlbumModal(false);
-                    window.location.reload(); //To reload the header, remove if no need
+                    // localStorage.setItem('albums', JSON.stringify(albums));
+                    // window.location.reload(); //To reload the header, remove if no need
                 })
                 .catch(err => console.error(err));
         }
     };
+
+    const handleShowEditAlbumModal = (albumId) => {
+        const foundAlb = albums?.find(a => a.id == albumId)
+
+        if(foundAlb) {
+            setSelectedAlbumTitle(foundAlb.title);
+        }
+
+        setShowEditAlbumModal(true);
+    }
 
     const handleUpdateAlbum = () => {
         let isValid = true;
@@ -161,8 +175,13 @@ function UserPage() {
             };
             axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, editAlbum)
                 .then(() => {
+                    // Cập nhật danh sách album trong context
+                    setAlbums((prevAlbums) =>
+                        prevAlbums.map((album) =>
+                            album.albumId === selectedAlbumId ? { ...album, title: editAlbumTitle } : album
+                        )
+                    );
                     setShowEditAlbumModal(false);
-                    window.location.reload(); //To reload the header, remove if no need
                 })
                 .catch(err => console.error(err));
         }
@@ -171,11 +190,14 @@ function UserPage() {
     const handleDelAlbum = () => {
         const disableAlbum = async () => {
             try {
-                await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, {isActive: false})
-                window.location.reload();
+                await axios.patch(`http://localhost:9999/albums/${selectedAlbumId}`, { isActive: false })
+                setAlbums((prevAlbums) =>
+                    prevAlbums.filter((album) => album.albumId !== selectedAlbumId)
+                  );
+                  setShowDelAlbumModeal(false);
             } catch (error) {
                 console.log(error);
-                
+
             }
         }
 
@@ -290,7 +312,7 @@ function UserPage() {
                         <Form.Label column sm="2">Password</Form.Label>
                         <Col sm="2">
                             <Form.Control
-                                type= {isEditPassword ? "text" : "password"}
+                                type={isEditPassword ? "text" : "password"}
                                 isInvalid={!!errors.city}
                                 plaintext={!isEditPassword}
                                 readOnly={!isEditPassword}
@@ -305,7 +327,7 @@ function UserPage() {
                         <Col sm="8">
                             {
                                 isEditing && (
-                                        <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
+                                    <FaPen onClick={() => setIsEditPassword(!isEditPassword)} style={{ cursor: 'pointer' }} />
                                 )
                             }
 
@@ -339,7 +361,7 @@ function UserPage() {
                                     {album.title}
                                 </li>
                                 <li className='ms-auto'>
-                                    <Button variant='warning' onClick={() => setShowEditAlbumModal(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
+                                    <Button variant='warning' onClick={() => handleShowEditAlbumModal(album.id)}><FontAwesomeIcon icon={faPenToSquare} /></Button>
                                 </li>
                                 <li className='ps-2'>
                                     <Button variant='danger' onClick={() => setShowDelAlbumModeal(true)}><FontAwesomeIcon icon={faTrash} /></Button>
@@ -348,7 +370,7 @@ function UserPage() {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
-                <Button variant="primary" onClick={() => setShowAlbumModal(true)} style={{ marginTop: '10px' }}>Add New Album</Button>
+                <Button variant="success" onClick={() => setShowAlbumModal(true)} style={{ marginTop: '10px' }}>Add New Album</Button>
             </Col>
             <Col md={8}>
                 {selectedAlbumId && (
@@ -434,6 +456,7 @@ function UserPage() {
                         <Form.Label>Album Title</Form.Label>
                         <Form.Control
                             type="text"
+                            defaultValue={selectedAlbumTitle}
                             onChange={(e) => setEditAlbumTitle(e.target.value)}
                         />
                         {editAlbumTitleErr && <span style={{ color: "red" }}>{editAlbumTitleErr}</span>}
@@ -448,12 +471,13 @@ function UserPage() {
             {/* Modal for disable album */}
             <Modal show={showDelAlbumModal} onHide={() => setShowDelAlbumModeal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Are you sure want to delete this Album?</Modal.Title>
+                    <Modal.Title>Delete album!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    Are you sure want to delete this Album?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowEditAlbumModal(false)}>Cancel</Button>
+                    <Button variant="secondary" onClick={() => setShowDelAlbumModeal(false)}>Cancel</Button>
                     <Button variant="danger" onClick={handleDelAlbum}>Delete</Button>
                 </Modal.Footer>
             </Modal>

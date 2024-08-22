@@ -1,0 +1,75 @@
+.search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #757677;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+    margin-top: 10px;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .image-container img {
+    display: block;
+    width: 100%;
+    transition: 0.3s ease;
+  }
+  
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen với độ trong suốt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Ngăn cản sự kiện chuột tác động vào overlay */
+  }
+  
+  .image-overlay .title {
+    color: white;
+    font-size: 20px;
+    font-weight: 450;
+    text-align: center;
+  }
+  
+  .image-container:hover img {
+    filter: blur(2px); /* Làm mờ ảnh khi di chuột */
+  }
+  
+  .image-container:hover .image-overlay {
+    opacity: 1; /* Hiển thị overlay khi di chuột */
+    pointer-events: auto; /* Cho phép sự kiện chuột tác động vào overlay */
+  }
+  
+  .share-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: white !important;
+    font-size: 24px;
+    z-index: 10; /* Đảm bảo nút share nằm trên cùng */
+    opacity: 0; /* Ẩn nút share mặc định */
+    transition: opacity 0.3s ease;
+    pointer-events: auto; /* Cho phép nút nhận sự kiện chuột */
+  }
+  
+  .image-overlay:hover .share-icon {
+    opacity: 1; /* Hiển thị nút share khi hover vào overlay */
+  }
+  
+  .share-icon:hover {
+    color: yellow; /* Đổi màu khi hover vào nút share */
+  }
+  
+  
