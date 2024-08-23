@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Card, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Card, Button, Form, Modal, Image } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaPen } from 'react-icons/fa';
+import { FaEdit, FaPen } from 'react-icons/fa';
+import { MdDelete } from "react-icons/md";
+
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faL, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -29,10 +31,25 @@ function UserPage() {
     const [editAlbumTitle, setEditAlbumTitle] = useState("");
     const [editAlbumTitleErr, setEditAlbumTitleErr] = useState("");
     const [showPhotoModal, setShowPhotoModal] = useState(false);
+    const [isRender, setIsRender] = useState(null);
+    const [allPhoto, setAllPhoto] = useState([]);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [indexPhoto, setIndexPhoto] = useState({});
     const [newPhoto, setNewPhoto] = useState({
         title: "",
-        imageUrl: ""
+        imageUrl: "",
+        thumbnail: "",
+        tag: ""
     });
+
+    useEffect(() => {
+        if (selectedAlbumId !== null || isRender === 1) {
+            axios.get(`http://localhost:9999/photos`)
+                .then(res => setAllPhoto(res.data))
+                .catch(err => console.error(err));
+            setIsRender(0);
+        }
+    }, [selectedAlbumId, isRender]);
 
     useEffect(() => {
         const checkUser = JSON.parse(localStorage.getItem("user"));
@@ -68,10 +85,10 @@ function UserPage() {
                     console.log(err);
                 }
             }
-
+            setIsRender(0);
             fetchPhotos();
         }
-    }, [selectedAlbumId]);
+    }, [selectedAlbumId, isRender]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -103,6 +120,17 @@ function UserPage() {
         return Object.keys(formErrors).length === 0;
     };
 
+    const handleDeletePhoto = async (photoid) => {
+        const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa ảnh này không?");
+        if (confirmDelete) {
+            try {
+                await axios.delete(`http://localhost:9999/photos/${photoid}`);
+                setIsRender(1);
+            } catch (error) {
+                alert("Có lỗi xảy ra khi xóa ảnh. Vui lòng thử lại sau.");
+            }
+        }
+    };
     const handleSave = () => {
         if (validateForm()) {
             axios.put(`http://localhost:9999/users/${user.id}`, editedUser)
@@ -203,22 +231,38 @@ function UserPage() {
 
         disableAlbum();
     }
-
+    const handleSaveEdit = () => {
+        axios.put(`http://localhost:9999/photos/${indexPhoto.id}`, indexPhoto)
+            .then(() => {
+                setIsRender(1);
+                setShowEditModal(false);
+            })
+            .catch(err => console.error(err));
+    }
+    const handleEditPhoto = (e) => {
+        setShowEditModal(true);
+        setIndexPhoto(e);
+    }
     const handleAddPhoto = () => {
+        const input = newPhoto.tag;
+        const newTag = input.split(',').map(t => t.trim()).filter(t => t !== '');
         const newPhotoData = {
-            id: photos.length + 1,
-            photoId: photos.length + 1,
+            // id: allPhoto.length + 1,
+            photoId: allPhoto.length + 1,
             title: newPhoto.title,
             image: {
                 url: newPhoto.imageUrl,
-                thumbnail: newPhoto.imageUrl
+                thumbnail: newPhoto.thumbnail
             },
-            albumId: selectedAlbumId
+            albumId: selectedAlbumId,
+            tags: newTag
         };
         axios.post('http://localhost:9999/photos', newPhotoData)
             .then(() => {
                 setPhotos([...photos, newPhotoData]);
                 setShowPhotoModal(false);
+                setIsRender(1);
+                setNewPhoto(null);
             })
             .catch(err => console.error(err));
     };
@@ -387,6 +431,12 @@ function UserPage() {
                                                     {p.title}
                                                 </Link>
                                             </Card.Title>
+                                            <Button onClick={(e) => handleEditPhoto(p)}>
+                                                <FaEdit />
+                                            </Button>
+                                            <Button onClick={() => handleDeletePhoto(p.id)} style={{ marginLeft: '15px' }}>
+                                                <MdDelete />
+                                            </Button>
                                         </Card.Body>
                                     </Card>
                                 </Col>
@@ -483,25 +533,44 @@ function UserPage() {
             </Modal>
 
             {/* Modal for adding new photo */}
-            {/* <Modal show={showPhotoModal} onHide={() => setShowPhotoModal(false)}>
+            <Modal show={showPhotoModal} onHide={() => setShowPhotoModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add New Photo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group>
                         <Form.Label>Photo Title</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            value={newPhoto.title} 
-                            onChange={(e) => setNewPhoto({ ...newPhoto, title: e.target.value })} 
+                        <Form.Control
+                            type="text"
+                           
+                            onChange={(e) => setNewPhoto({ ...newPhoto, title: e.target.value })}
                         />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Photo URL</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            value={newPhoto.imageUrl} 
-                            onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.value })} 
+                        <Form.Label>Photo Thumbnail</Form.Label>
+                        
+                        <Form.Control
+                            style={{ marginTop: '10px' }}
+                            type="file"
+                            onChange={(e) => setNewPhoto({ ...newPhoto, thumbnail: e.target.files[0].name })}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Photo Detail</Form.Label>
+                        
+                        <Form.Control
+                            style={{ marginTop: '10px' }}
+                            type="file"
+                            onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.files[0].name })}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Photo Tag</Form.Label>
+                        <Form.Control
+                            type="text"
+                           
+                            placeholder='Nhập tên tag, mỗi tag cách nhau bởi dấu ,'
+                            onChange={(e) => setNewPhoto({ ...newPhoto, tag: e.target.value })}
                         />
                     </Form.Group>
                 </Modal.Body>
@@ -509,7 +578,84 @@ function UserPage() {
                     <Button variant="secondary" onClick={() => setShowPhotoModal(false)}>Close</Button>
                     <Button variant="primary" onClick={handleAddPhoto}>Add Photo</Button>
                 </Modal.Footer>
-            </Modal> */}
+            </Modal>
+            {showEditModal &&
+                <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Edit Photo {indexPhoto.id}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group>
+                            <Form.Label>Photo Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={indexPhoto.title}
+                                onChange={(e) => setIndexPhoto({ ...indexPhoto, title: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Photo Thumbnail </Form.Label>
+                            <br />
+                            <Image
+                                src={"/assets/images/" + indexPhoto.image.thumbnail}
+                                style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    objectFit: "cover",
+                                    marginRight: "10px",
+                                    cursor: "pointer"
+                                }}
+                            />
+                            <Form.Control
+                                style={{ marginTop: '10px' }}
+                                type="file"
+                                onChange={(e) => setIndexPhoto({
+                                    ...indexPhoto, image: {
+                                        url: indexPhoto.image?.url,
+                                        thumbnail: e.target.files[0].name
+                                    }
+                                })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Photo Detail </Form.Label>
+                            <br />
+                            <Image
+                                src={"/assets/images/" + indexPhoto.image.url}
+                                style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    objectFit: "cover",
+                                    marginRight: "10px",
+                                    cursor: "pointer"
+                                }}
+                            />
+                            <Form.Control
+                                style={{ marginTop: '10px' }}
+                                type="file"
+                                onChange={(e) => setIndexPhoto({
+                                    ...indexPhoto, image: {
+                                        url: e.target.files[0].name,
+                                        thumbnail: indexPhoto.image?.thumbnail
+                                    }
+                                })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Photo Tag</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={indexPhoto.tags}
+                                onChange={(e) => setIndexPhoto({ ...indexPhoto, tag: e.target.value })}
+                            />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
+                        <Button variant="primary" onClick={handleSaveEdit}>Save Photo</Button>
+                    </Modal.Footer>
+                </Modal>
+            }
         </Container>
     );
 }

@@ -421,6 +421,20 @@
       "userId": 3,
       "text": "áda",
       "rate": 0
+    },
+    {
+      "id": "a92e",
+      "photoId": 5,
+      "userId": 2,
+      "text": "Alo",
+      "rate": 0
+    },
+    {
+      "id": "5c8e",
+      "photoId": 5,
+      "userId": 2,
+      "text": "hay vcl",
+      "rate": 5
     }
   ]
 }
